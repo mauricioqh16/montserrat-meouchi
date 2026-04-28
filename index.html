@@ -1,0 +1,2183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Montserrat Meouchi — Asesora de Seguros, Retiro e Inversiones | San Pedro Garza García</title>
+<meta name="description" content="Economista certificada por la CNSF con 7+ años de experiencia en seguros, planes de retiro e inversiones en San Pedro Garza García, NL.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+/* ============================================================
+   RESET & VARIABLES
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:       #0A1628;
+  --navy-mid:   #12243D;
+  --navy-light: #1A3050;
+  --gold:       #C9A84C;
+  --gold-light: #DFC080;
+  --gold-pale:  #F5ECD8;
+  --cream:      #FAF8F4;
+  --white:      #FFFFFF;
+  --text:       #0A1628;
+  --text-mid:   #334155;
+  --text-soft:  #64748B;
+  --border:     #E2DDD6;
+  --danger:     #B03A2E;
+  --radius:     4px;
+  --transition: 0.25s ease;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--white);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+
+/* ============================================================
+   UTILITIES
+   ============================================================ */
+.section-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 14px;
+  font-weight: 500;
+}
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--navy);
+}
+.section-title.light { color: var(--white); }
+.gold-line { width: 48px; height: 2px; background: var(--gold); margin: 20px 0; }
+.gold-line.center { margin: 20px auto; }
+/* .fade-in initial state — set by GSAP; fallback if JS disabled */
+.fade-in { opacity: 1; }
+.no-js .fade-in { opacity: 0; }
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+#navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: transparent;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  padding: 0 48px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+#navbar.scrolled {
+  background: var(--navy);
+  box-shadow: 0 2px 24px rgba(0,0,0,0.3);
+}
+.nav-logo { display: flex; flex-direction: column; gap: 2px; }
+.nav-logo-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: var(--white);
+  letter-spacing: 0.03em;
+  line-height: 1;
+}
+.nav-logo-sub {
+  font-size: 9px;
+  color: var(--gold);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.nav-links { display: flex; align-items: center; gap: 32px; }
+.nav-links a {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.75);
+  letter-spacing: 0.04em;
+  transition: color var(--transition);
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-cta {
+  background: var(--gold) !important;
+  color: var(--navy) !important;
+  padding: 9px 22px;
+  border-radius: var(--radius);
+  font-weight: 700 !important;
+  font-size: 12px !important;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.nav-cta:hover { background: var(--gold-light) !important; color: var(--navy) !important; }
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 4px;
+}
+.nav-hamburger span { width: 24px; height: 2px; background: var(--white); border-radius: 2px; display: block; }
+.nav-mobile {
+  display: none;
+  position: fixed;
+  top: 72px; left: 0; right: 0;
+  background: var(--navy);
+  padding: 24px 32px;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 999;
+  border-top: 1px solid rgba(201,168,76,0.2);
+}
+.nav-mobile.open { display: flex; }
+.nav-mobile a { font-size: 15px; font-weight: 500; color: rgba(255,255,255,0.8); transition: color var(--transition); }
+.nav-mobile a:hover { color: var(--gold); }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+#hero {
+  min-height: 100vh;
+  background: var(--navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 120px 24px 80px;
+  position: relative;
+  overflow: hidden;
+}
+#hero::before {
+  content: '';
+  position: absolute;
+  width: 800px; height: 800px;
+  background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 65%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.hero-inner { position: relative; max-width: 780px; }
+.hero-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 24px;
+  font-weight: 500;
+}
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(38px, 6vw, 70px);
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.15;
+  margin-bottom: 24px;
+}
+.hero-title em { font-style: italic; color: var(--gold-light); }
+.hero-subtitle {
+  font-size: clamp(15px, 2vw, 18px);
+  color: rgba(255,255,255,0.5);
+  font-weight: 300;
+  max-width: 520px;
+  margin: 0 auto 44px;
+  line-height: 1.85;
+}
+.hero-cta {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--navy);
+  padding: 17px 44px;
+  border-radius: var(--radius);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+  box-shadow: 0 4px 28px rgba(201,168,76,0.35);
+}
+.hero-cta:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 36px rgba(201,168,76,0.45); }
+.hero-trust {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;
+  margin-top: 60px;
+  flex-wrap: wrap;
+}
+.hero-trust-item { display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,0.4); font-size: 13px; }
+.hero-trust-item i { color: var(--gold); font-size: 15px; }
+.hero-scroll {
+  position: absolute;
+  bottom: 32px; left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255,255,255,0.25);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  animation: bounce 2.2s infinite;
+}
+.hero-scroll i { font-size: 12px; }
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(7px); }
+}
+
+/* ============================================================
+   SOBRE MONTSERRAT
+   ============================================================ */
+#sobre { padding: 100px 48px; background: var(--white); }
+.sobre-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.45fr;
+  gap: 72px;
+  align-items: center;
+}
+.sobre-photo { position: relative; }
+.sobre-photo-frame {
+  width: 100%;
+  aspect-ratio: 3/4;
+  border-radius: var(--radius);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.14);
+}
+.sobre-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  border-radius: var(--radius);
+}
+.sobre-photo-badge {
+  position: absolute;
+  bottom: -16px; right: -16px;
+  background: var(--gold);
+  color: var(--navy);
+  padding: 16px 20px;
+  border-radius: var(--radius);
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+.sobre-photo-badge-num { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 500; line-height: 1; }
+.sobre-photo-badge-text { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
+.sobre-content { padding-bottom: 24px; }
+.sobre-bio { font-size: 15px; color: var(--text-mid); line-height: 1.95; margin-bottom: 16px; }
+.sobre-bio strong { color: var(--navy); font-weight: 600; }
+.sobre-credentials { display: flex; flex-direction: column; gap: 12px; margin-top: 32px; }
+.credential {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--cream);
+  transition: border-color var(--transition);
+}
+.credential:hover { border-color: var(--gold); }
+.credential-icon {
+  width: 38px; height: 38px;
+  background: var(--navy);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.credential-icon i { color: var(--gold); font-size: 14px; }
+.credential-text strong { display: block; font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 2px; }
+.credential-text span { font-size: 12px; color: var(--text-soft); }
+
+/* ============================================================
+   SERVICIOS
+   ============================================================ */
+#servicios { padding: 100px 48px; background: var(--cream); }
+.servicios-inner { max-width: 1100px; margin: 0 auto; }
+.servicios-header { text-align: center; margin-bottom: 60px; }
+.servicios-header .sub { font-size: 15px; color: var(--text-mid); max-width: 520px; margin: 0 auto; line-height: 1.8; }
+.servicios-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.servicio-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 44px 36px;
+  transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.servicio-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transition: transform var(--transition);
+}
+.servicio-card:hover { border-color: rgba(201,168,76,0.4); transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,0.08); }
+.servicio-card:hover::before { transform: scaleX(1); }
+.servicio-icon { width: 56px; height: 56px; background: var(--navy); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; margin-bottom: 24px; }
+.servicio-icon i { color: var(--gold); font-size: 22px; }
+.servicio-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 400; color: var(--navy); margin-bottom: 12px; }
+.servicio-desc { font-size: 14px; color: var(--text-mid); line-height: 1.85; margin-bottom: 24px; }
+.servicio-list { display: flex; flex-direction: column; gap: 8px; }
+.servicio-list li { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--text-mid); }
+.servicio-list li::before { content: ''; width: 5px; height: 5px; background: var(--gold); border-radius: 50%; flex-shrink: 0; }
+
+/* ============================================================
+   SIMULADORES
+   ============================================================ */
+#simuladores { padding: 100px 0; background: var(--white); }
+.simuladores-header { text-align: center; padding: 0 48px; margin-bottom: 48px; }
+.simuladores-header .sub { font-size: 15px; color: var(--text-mid); max-width: 520px; margin: 0 auto; line-height: 1.8; }
+.simulador-tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+  border-bottom: 1px solid var(--border);
+  padding: 0 48px;
+}
+.sim-tab {
+  padding: 14px 32px;
+  font-size: 13px; font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  background: none; border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition);
+  margin-bottom: -1px;
+  font-family: 'Inter', sans-serif;
+}
+.sim-tab.active { color: var(--navy); border-bottom-color: var(--gold); }
+.sim-tab:hover { color: var(--navy); }
+.sim-panel { display: none; }
+.sim-panel.active { display: block; }
+
+/* ============================================================
+   GMM CALCULATOR — scoped under .gmm-wrap
+   ============================================================ */
+.gmm-wrap { max-width: 900px; margin: 0 auto; padding: 0 24px 60px; }
+.gmm-wrap .blk { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 36px 40px; margin-bottom: 24px; }
+.gmm-wrap .blk-title { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
+.gmm-wrap .blk-num { width: 28px; height: 28px; background: var(--navy); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--gold); flex-shrink: 0; }
+.gmm-wrap .blk-title h3 { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 400; color: var(--navy); }
+.gmm-wrap .inp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+.gmm-wrap .inp-group { display: flex; flex-direction: column; gap: 7px; }
+.gmm-wrap .inp-group.full { grid-column: 1 / -1; }
+.gmm-wrap .inp-group label { font-size: 11px; font-weight: 600; color: var(--text-mid); letter-spacing: 0.08em; text-transform: uppercase; }
+.gmm-wrap .inp-wrap { position: relative; }
+.gmm-wrap .inp-wrap input {
+  width: 100%; padding: 11px 60px 11px 16px;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  font-family: 'Inter', sans-serif; font-size: 15px; color: var(--text);
+  background: var(--cream); transition: border-color 0.2s;
+  -moz-appearance: textfield;
+}
+.gmm-wrap .inp-wrap input::-webkit-outer-spin-button,
+.gmm-wrap .inp-wrap input::-webkit-inner-spin-button { -webkit-appearance: none; }
+.gmm-wrap .inp-wrap input:focus { outline: none; border-color: var(--gold); background: var(--white); }
+.gmm-wrap .inp-suffix { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-size: 11px; color: var(--text-soft); pointer-events: none; }
+.gmm-wrap .sld-block { padding: 20px 24px; background: var(--cream); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 16px; }
+.gmm-wrap .sld-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+.gmm-wrap .sld-header span:first-child { font-size: 13px; color: var(--text-mid); }
+.gmm-wrap .sld-value { font-size: 22px; font-weight: 600; color: var(--navy); }
+.gmm-wrap .sld-hint { font-size: 11px; color: var(--text-soft); margin-top: 8px; }
+.gmm-wrap input[type="range"] { -webkit-appearance: none; width: 100%; height: 3px; background: var(--border); border-radius: 2px; outline: none; cursor: pointer; }
+.gmm-wrap input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--navy); border: 3px solid var(--gold); cursor: pointer; transition: transform 0.15s; }
+.gmm-wrap input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); }
+.gmm-wrap .mets { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 28px; }
+.gmm-wrap .met { padding: 18px 16px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--cream); }
+.gmm-wrap .met-lbl { font-size: 11px; color: var(--text-soft); text-transform: uppercase; letter-spacing: 0.07em; line-height: 1.4; margin-bottom: 8px; }
+.gmm-wrap .met-val { font-size: 20px; font-weight: 600; color: var(--navy); line-height: 1.1; }
+.gmm-wrap .met-sub { font-size: 11px; color: var(--text-soft); margin-top: 4px; }
+.gmm-wrap .met.danger .met-val { color: var(--danger); }
+.gmm-wrap .met.highlight { border-color: var(--gold); background: var(--navy); }
+.gmm-wrap .met.highlight .met-lbl { color: rgba(255,255,255,0.5); }
+.gmm-wrap .met.highlight .met-val { color: var(--gold); font-size: 22px; }
+.gmm-wrap .met.highlight .met-sub { color: rgba(255,255,255,0.35); }
+.gmm-wrap .tbl-wrap { overflow-x: auto; margin-top: 8px; }
+.gmm-wrap table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.gmm-wrap thead th { font-size: 11px; font-weight: 600; color: var(--text-soft); text-transform: uppercase; letter-spacing: 0.07em; padding: 10px 14px; text-align: right; border-bottom: 1px solid var(--border); background: var(--cream); }
+.gmm-wrap thead th:first-child { text-align: left; }
+.gmm-wrap tbody td { padding: 11px 14px; border-bottom: 0.5px solid var(--border); color: var(--text); text-align: right; }
+.gmm-wrap tbody td:first-child { text-align: left; color: var(--text-mid); font-weight: 500; }
+.gmm-wrap tbody tr:last-child td { border-bottom: none; }
+.gmm-wrap tbody tr:hover td { background: #fdfbf8; }
+.gmm-wrap .row-hi td { background: var(--navy) !important; color: var(--white) !important; }
+.gmm-wrap .row-hi td:first-child { color: var(--gold) !important; }
+.gmm-wrap .row-dng td { background: #fdf0ee !important; color: var(--danger) !important; }
+.gmm-wrap .bdg { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 2px; letter-spacing: 0.05em; font-weight: 600; vertical-align: middle; margin-left: 6px; }
+.gmm-wrap .bdg-now { background: #e8f4e8; color: #2e7d32; }
+.gmm-wrap .bdg-warn { background: #fff3e0; color: #e65100; }
+.gmm-wrap .bdg-dng { background: #fdf0ee; color: var(--danger); }
+.gmm-wrap .footnote { font-size: 12px; color: var(--text-soft); line-height: 1.7; padding: 16px 20px; border-left: 2px solid var(--gold); background: var(--gold-pale); border-radius: 0 var(--radius) var(--radius) 0; margin-top: 20px; }
+
+/* ============================================================
+   RETIRO CALCULATOR — scoped under .ret-wrap
+   ============================================================ */
+.ret-wrap { max-width: 720px; margin: 0 auto; padding: 0 24px 60px; }
+.ret-wrap .crd { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 44px 48px; margin-bottom: 20px; }
+.ret-wrap .crd-lbl { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 28px; display: flex; align-items: center; gap: 10px; font-weight: 600; }
+.ret-wrap .crd-lbl::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.ret-wrap .inp-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 28px; margin-bottom: 28px; }
+.ret-wrap .fld label { display: block; font-size: 11px; font-weight: 600; color: var(--text-mid); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
+.ret-wrap .inp-w { position: relative; }
+.ret-wrap .inp-w input {
+  width: 100%; padding: 14px 48px 14px 18px;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  font-family: 'Inter', sans-serif; font-size: 20px; font-weight: 300;
+  color: var(--text); background: var(--cream);
+  transition: border-color 0.2s, background 0.2s;
+  -moz-appearance: textfield;
+}
+.ret-wrap .inp-w input::-webkit-outer-spin-button,
+.ret-wrap .inp-w input::-webkit-inner-spin-button { -webkit-appearance: none; }
+.ret-wrap .inp-w input:focus { outline: none; border-color: var(--gold); background: var(--white); }
+.ret-wrap .inp-sfx { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); font-size: 11px; color: var(--text-soft); letter-spacing: 0.06em; text-transform: uppercase; }
+.ret-wrap .calc-btn {
+  width: 100%; padding: 16px;
+  background: var(--navy); color: var(--white);
+  border: none; border-radius: var(--radius);
+  font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  cursor: pointer; transition: background 0.2s, transform 0.15s;
+}
+.ret-wrap .calc-btn:hover { background: var(--navy-mid); transform: translateY(-1px); }
+.ret-wrap .calc-btn:active { transform: translateY(0); }
+.ret-wrap .results { display: none; animation: fadeUpRet 0.5s ease forwards; }
+.ret-wrap .results.visible { display: block; }
+@keyframes fadeUpRet {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.ret-wrap .res-hero { background: var(--navy); border-radius: var(--radius); padding: 48px; text-align: center; margin-bottom: 20px; position: relative; overflow: hidden; }
+.ret-wrap .res-hero::before { content: ''; position: absolute; width: 400px; height: 400px; background: radial-gradient(circle, rgba(201,168,76,0.1) 0%, transparent 65%); top: 50%; left: 50%; transform: translate(-50%,-50%); pointer-events: none; }
+.ret-wrap .res-eyebrow { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; font-weight: 600; }
+.ret-wrap .res-amount { font-family: 'Playfair Display', serif; font-size: clamp(52px, 10vw, 88px); font-weight: 500; color: var(--gold-light); line-height: 1; margin-bottom: 16px; letter-spacing: -0.02em; }
+.ret-wrap .res-desc { font-size: 16px; color: rgba(255,255,255,0.85); max-width: 380px; margin: 0 auto; line-height: 1.7; }
+.ret-wrap .mets { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+.ret-wrap .met { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; }
+.ret-wrap .met.accent { border-color: rgba(201,168,76,0.35); background: linear-gradient(135deg, #fffdf8 0%, var(--white) 100%); }
+.ret-wrap .met-lbl { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-soft); margin-bottom: 12px; font-weight: 600; }
+.ret-wrap .met-val { font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 500; color: var(--navy); line-height: 1; margin-bottom: 6px; }
+.ret-wrap .met-sub { font-size: 12px; color: var(--text-soft); font-weight: 400; line-height: 1.5; }
+.ret-wrap .met-val.danger { color: var(--danger); }
+.ret-wrap .met-val.gold { color: var(--gold); }
+.ret-wrap .insight { background: var(--white); border: 1px solid var(--border); border-left: 3px solid var(--gold); border-radius: 0 var(--radius) var(--radius) 0; padding: 20px 24px; margin-bottom: 20px; font-size: 14px; color: var(--text-mid); line-height: 1.85; }
+.ret-wrap .insight strong { color: var(--navy); font-weight: 600; }
+.ret-wrap .cta-blk { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px 36px; text-align: center; margin-bottom: 24px; }
+.ret-wrap .cta-blk p { font-size: 15px; color: var(--text-mid); margin-bottom: 20px; line-height: 1.7; font-weight: 300; }
+.ret-wrap .cta-blk p strong { color: var(--navy); font-weight: 600; }
+.ret-wrap .cta-btn { display: inline-block; padding: 13px 36px; background: var(--gold); color: var(--navy); border-radius: var(--radius); font-size: 12px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; transition: background 0.2s; }
+.ret-wrap .cta-btn:hover { background: var(--gold-light); }
+.ret-wrap .supu { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 36px; }
+.ret-wrap .supu-title { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-soft); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; font-weight: 600; }
+.ret-wrap .supu-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.ret-wrap .supu-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 12px 32px; }
+.ret-wrap .supu-list li { font-size: 13px; color: var(--text-mid); line-height: 1.5; padding-left: 14px; position: relative; }
+.ret-wrap .supu-list li::before { content: '—'; position: absolute; left: 0; color: var(--gold); font-size: 10px; top: 3px; }
+.ret-wrap .supu-list li strong { color: var(--navy); font-weight: 600; }
+
+/* ============================================================
+   POR QUÉ ELEGIRLA
+   ============================================================ */
+#porque { padding: 100px 48px; background: var(--navy); }
+.porque-inner { max-width: 1100px; margin: 0 auto; }
+.porque-header { text-align: center; margin-bottom: 64px; }
+.porque-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.porque-item {
+  display: flex; align-items: flex-start; gap: 20px;
+  padding: 32px;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: var(--radius);
+  background: rgba(255,255,255,0.03);
+  transition: border-color var(--transition), background var(--transition);
+}
+.porque-item:hover { border-color: rgba(201,168,76,0.3); background: rgba(255,255,255,0.05); }
+.porque-num { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 400; color: rgba(201,168,76,0.2); line-height: 1; flex-shrink: 0; width: 56px; }
+.porque-text strong { display: block; font-size: 16px; font-weight: 600; color: var(--white); margin-bottom: 8px; }
+.porque-text p { font-size: 14px; color: rgba(255,255,255,0.48); line-height: 1.85; }
+.porque-full { grid-column: 1 / -1; }
+
+/* ============================================================
+   TESTIMONIOS
+   ============================================================ */
+#testimonios { padding: 100px 48px; background: var(--cream); }
+.testimonios-inner { max-width: 1100px; margin: 0 auto; }
+.testimonios-header { text-align: center; margin-bottom: 60px; }
+.testimonios-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.testimonio-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 36px 32px; transition: border-color var(--transition), box-shadow var(--transition); }
+.testimonio-card:hover { border-color: rgba(201,168,76,0.35); box-shadow: 0 8px 32px rgba(0,0,0,0.06); }
+.testimonio-stars { display: flex; gap: 4px; margin-bottom: 20px; }
+.testimonio-stars i { color: var(--gold); font-size: 13px; }
+.testimonio-quote { font-family: 'Playfair Display', serif; font-size: 52px; color: var(--gold); opacity: 0.25; line-height: 0.6; display: block; margin-bottom: 12px; }
+.testimonio-text { font-size: 14px; color: var(--text-mid); line-height: 1.9; margin-bottom: 28px; font-style: italic; }
+.testimonio-author { display: flex; align-items: center; gap: 14px; border-top: 1px solid var(--border); padding-top: 20px; }
+.testimonio-avatar { width: 42px; height: 42px; background: var(--navy); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 16px; color: var(--gold); flex-shrink: 0; }
+.testimonio-name { font-size: 14px; font-weight: 600; color: var(--navy); }
+.testimonio-role { font-size: 12px; color: var(--text-soft); margin-top: 2px; }
+
+/* ============================================================
+   FAQ
+   ============================================================ */
+#faq { padding: 100px 48px; background: var(--white); }
+.faq-inner { max-width: 780px; margin: 0 auto; }
+.faq-header { text-align: center; margin-bottom: 60px; }
+.faq-list { display: flex; flex-direction: column; gap: 12px; }
+.faq-item { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: border-color var(--transition); }
+.faq-item.open { border-color: rgba(201,168,76,0.45); }
+.faq-question { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 22px 28px; cursor: pointer; background: var(--white); transition: background var(--transition); user-select: none; }
+.faq-question:hover, .faq-item.open .faq-question { background: var(--cream); }
+.faq-question span { font-size: 15px; font-weight: 600; color: var(--navy); line-height: 1.4; }
+.faq-icon { width: 28px; height: 28px; border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform var(--transition), border-color var(--transition), background var(--transition); }
+.faq-icon i { font-size: 11px; color: var(--navy); }
+.faq-item.open .faq-icon { background: var(--gold); border-color: var(--gold); transform: rotate(45deg); }
+.faq-answer { display: none; padding: 0 28px 24px; background: var(--cream); }
+.faq-item.open .faq-answer { display: block; }
+.faq-answer p { font-size: 14px; color: var(--text-mid); line-height: 1.9; }
+
+/* ============================================================
+   CONTACTO
+   ============================================================ */
+#contacto { padding: 100px 48px; background: var(--navy); }
+.contacto-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.3fr; gap: 72px; align-items: start; }
+.contacto-info { padding-top: 8px; }
+.contacto-desc { font-size: 15px; color: rgba(255,255,255,0.5); line-height: 1.9; margin-bottom: 40px; }
+.contacto-items { display: flex; flex-direction: column; gap: 20px; }
+.contacto-item { display: flex; align-items: flex-start; gap: 16px; }
+.contacto-item-icon { width: 40px; height: 40px; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.25); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.contacto-item-icon i { color: var(--gold); font-size: 15px; }
+.contacto-item-text strong { display: block; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+.contacto-item-text span, .contacto-item-text a { font-size: 14px; color: rgba(255,255,255,0.6); transition: color var(--transition); }
+.contacto-item-text a:hover { color: var(--gold); }
+.contacto-social { display: flex; gap: 12px; margin-top: 32px; }
+.social-btn { width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.12); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.4); font-size: 16px; transition: border-color var(--transition), color var(--transition), background var(--transition); }
+.social-btn:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.1); }
+.contacto-form-wrap { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius); padding: 44px 40px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+.form-group { display: flex; flex-direction: column; gap: 8px; }
+.form-group.full { grid-column: 1 / -1; }
+.form-group label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.45); }
+.form-group input, .form-group select, .form-group textarea {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: var(--radius);
+  padding: 13px 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px; color: var(--white);
+  transition: border-color var(--transition), background var(--transition);
+  outline: none;
+}
+.form-group input::placeholder, .form-group textarea::placeholder { color: rgba(255,255,255,0.22); }
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--gold); background: rgba(255,255,255,0.09); }
+.form-group select { appearance: none; cursor: pointer; color: rgba(255,255,255,0.65); }
+.form-group select option { background: var(--navy); color: var(--white); }
+.form-group textarea { resize: vertical; min-height: 100px; }
+.form-error { font-size: 11px; color: #f87171; display: none; }
+.form-group.has-error .form-error { display: block; }
+.form-group.has-error input, .form-group.has-error select, .form-group.has-error textarea { border-color: #f87171; }
+.form-submit { width: 100%; padding: 16px; background: var(--gold); color: var(--navy); border: none; border-radius: var(--radius); font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; transition: background var(--transition), transform var(--transition); margin-top: 8px; }
+.form-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
+.form-submit:active { transform: translateY(0); }
+.form-success { display: none; text-align: center; padding: 32px 0; }
+.form-success.show { display: block; }
+.form-success i { font-size: 48px; color: var(--gold); margin-bottom: 16px; display: block; }
+.form-success h3 { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 400; color: var(--white); margin-bottom: 8px; }
+.form-success p { font-size: 14px; color: rgba(255,255,255,0.45); }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer { background: #060E1A; padding: 52px 48px 32px; }
+.footer-inner { max-width: 1100px; margin: 0 auto; }
+.footer-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 48px; padding-bottom: 36px; border-bottom: 1px solid rgba(255,255,255,0.05); flex-wrap: wrap; }
+.footer-brand { max-width: 280px; }
+.footer-brand-name { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--white); letter-spacing: 0.03em; margin-bottom: 6px; }
+.footer-brand-sub { font-size: 9px; color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 16px; }
+.footer-brand p { font-size: 13px; color: rgba(255,255,255,0.28); line-height: 1.75; }
+.footer-links { display: flex; flex-direction: column; gap: 12px; }
+.footer-links-title { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+.footer-links a { font-size: 13px; color: rgba(255,255,255,0.38); transition: color var(--transition); }
+.footer-links a:hover { color: rgba(255,255,255,0.8); }
+.footer-bottom { padding-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.footer-copy { font-size: 12px; color: rgba(255,255,255,0.18); }
+.footer-disclaimer { font-size: 11px; color: rgba(255,255,255,0.13); max-width: 480px; text-align: right; line-height: 1.6; }
+
+/* ============================================================
+   HERO URGENCY BADGE
+   ============================================================ */
+.hero-urgency {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 100px;
+  padding: 8px 18px;
+  font-size: 12px;
+  color: var(--gold-light);
+  letter-spacing: 0.06em;
+  margin-bottom: 28px;
+}
+.hero-urgency-dot {
+  width: 6px; height: 6px;
+  background: var(--gold);
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: pulse-dot 2s infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.6); }
+}
+
+/* ============================================================
+   MÉTRICAS BAR
+   ============================================================ */
+#metricas { background: var(--gold); overflow: hidden; }
+.metricas-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 48px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.metrica-item {
+  text-align: center;
+  padding: 40px 24px;
+  border-right: 1px solid rgba(10,22,40,0.14);
+  position: relative;
+}
+.metrica-item:last-child { border-right: none; }
+.metrica-num {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 4vw, 54px);
+  font-weight: 500;
+  color: var(--navy);
+  line-height: 1;
+  display: block;
+  letter-spacing: -0.02em;
+}
+.metrica-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--navy);
+  opacity: 0.55;
+  margin-top: 10px;
+  display: block;
+}
+
+/* ============================================================
+   PROCESO — ASÍ TRABAJO
+   ============================================================ */
+#proceso { padding: 100px 48px; background: var(--white); }
+.proceso-inner { max-width: 1100px; margin: 0 auto; }
+.proceso-header { text-align: center; margin-bottom: 72px; }
+.proceso-header .sub { font-size: 15px; color: var(--text-mid); max-width: 480px; margin: 0 auto; line-height: 1.8; }
+.proceso-steps {
+  display: grid;
+  grid-template-columns: 1fr 56px 1fr 56px 1fr;
+  align-items: center;
+}
+.proceso-step {
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 44px 32px;
+  text-align: center;
+  transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+.proceso-step:hover {
+  border-color: rgba(201,168,76,0.45);
+  transform: translateY(-5px);
+  box-shadow: 0 20px 52px rgba(0,0,0,0.07);
+}
+.proceso-connector { display: flex; align-items: center; justify-content: center; padding: 0 4px; }
+.proceso-connector::before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, var(--border) 0%, var(--gold) 50%, var(--border) 100%);
+}
+.proceso-step-num {
+  width: 52px; height: 52px;
+  background: var(--navy);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 20px;
+}
+.proceso-step-num span {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  color: var(--gold);
+}
+.proceso-step-icon { font-size: 26px; color: var(--gold); margin-bottom: 16px; display: block; }
+.proceso-step-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 21px;
+  font-weight: 400;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+.proceso-step-desc { font-size: 13px; color: var(--text-mid); line-height: 1.85; }
+.proceso-cta-wrap { text-align: center; margin-top: 60px; }
+.proceso-cta {
+  display: inline-block;
+  background: var(--navy);
+  color: var(--white);
+  padding: 17px 44px;
+  border-radius: var(--radius);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+  box-shadow: 0 4px 20px rgba(10,22,40,0.2);
+}
+.proceso-cta:hover { background: var(--navy-mid); transform: translateY(-2px); box-shadow: 0 10px 32px rgba(10,22,40,0.25); }
+
+/* ============================================================
+   SERVICE CARD CTA
+   ============================================================ */
+.servicio-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 28px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  padding-bottom: 4px;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--transition), gap var(--transition);
+}
+.servicio-cta:hover { border-color: var(--gold); gap: 13px; }
+.servicio-cta i { font-size: 10px; transition: transform var(--transition); }
+.servicio-cta:hover i { transform: translateX(3px); }
+
+/* ============================================================
+   CONTACTO — WHATSAPP DIRECTO
+   ============================================================ */
+.contacto-form-divider {
+  display: flex; align-items: center; gap: 16px;
+  margin: 20px 0 0;
+}
+.contacto-form-divider::before, .contacto-form-divider::after {
+  content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.1);
+}
+.contacto-form-divider span {
+  font-size: 11px; color: rgba(255,255,255,0.22);
+  letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap;
+}
+.contacto-wa-btn {
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  width: 100%; padding: 16px;
+  background: #25D366; color: var(--white);
+  border-radius: var(--radius); font-weight: 700; font-size: 13px;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  transition: background var(--transition), transform var(--transition);
+  margin-top: 14px;
+}
+.contacto-wa-btn:hover { background: #20ba5a; transform: translateY(-1px); }
+.contacto-wa-btn i { font-size: 19px; }
+
+/* ============================================================
+   WHATSAPP FLOTANTE
+   ============================================================ */
+.wa-float {
+  position: fixed; bottom: 32px; right: 32px;
+  width: 58px; height: 58px;
+  background: #25D366;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+  z-index: 900;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.wa-float:hover { transform: scale(1.1); box-shadow: 0 8px 32px rgba(37,211,102,0.55); }
+.wa-float i { color: var(--white); font-size: 28px; }
+.wa-tooltip {
+  position: absolute; right: 68px;
+  background: var(--navy); color: var(--white);
+  font-size: 12px; font-weight: 500;
+  padding: 8px 14px; border-radius: var(--radius);
+  white-space: nowrap;
+  opacity: 0; pointer-events: none;
+  transition: opacity var(--transition);
+  font-family: 'Inter', sans-serif;
+}
+.wa-float:hover .wa-tooltip { opacity: 1; }
+.wa-tooltip::after { content: ''; position: absolute; right: -6px; top: 50%; transform: translateY(-50%); border: 6px solid transparent; border-right: none; border-left-color: var(--navy); }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1024px) {
+  .sobre-inner { grid-template-columns: 1fr; gap: 48px; }
+  .sobre-photo { max-width: 340px; }
+  .servicios-grid { grid-template-columns: 1fr 1fr; }
+  .testimonios-grid { grid-template-columns: 1fr 1fr; }
+  .contacto-inner { grid-template-columns: 1fr; gap: 48px; }
+  .footer-top { flex-direction: column; gap: 32px; }
+  .footer-disclaimer { text-align: left; }
+  .metricas-inner { grid-template-columns: repeat(2, 1fr); }
+  .metrica-item:nth-child(2) { border-right: none; }
+  .metrica-item:nth-child(3) { border-top: 1px solid rgba(10,22,40,0.14); }
+  .metrica-item:nth-child(4) { border-top: 1px solid rgba(10,22,40,0.14); border-right: none; }
+  .proceso-steps { grid-template-columns: 1fr; gap: 20px; }
+  .proceso-connector { display: none; }
+}
+@media (max-width: 768px) {
+  #navbar { padding: 0 24px; }
+  .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
+  #hero, #sobre, #servicios, #proceso, #porque, #testimonios, #faq, #contacto { padding: 72px 24px; }
+  #simuladores { padding: 72px 0; }
+  .simuladores-header, .simulador-tabs { padding: 0 24px; }
+  .servicios-grid, .porque-grid, .testimonios-grid { grid-template-columns: 1fr; }
+  .metricas-inner { padding: 0 24px; }
+  .gmm-wrap .inp-grid { grid-template-columns: 1fr; }
+  .gmm-wrap .mets { grid-template-columns: 1fr 1fr; }
+  .gmm-wrap .blk { padding: 24px 20px; }
+  .ret-wrap .inp-row { grid-template-columns: 1fr; gap: 20px; }
+  .ret-wrap .mets { grid-template-columns: 1fr; }
+  .ret-wrap .crd { padding: 28px 20px; }
+  .ret-wrap .res-hero { padding: 36px 24px; }
+  .ret-wrap .supu-list { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .contacto-form-wrap { padding: 28px 24px; }
+  footer { padding: 40px 24px 24px; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+  .wa-float { bottom: 20px; right: 20px; width: 52px; height: 52px; }
+  .wa-float i { font-size: 24px; }
+}
+@media (max-width: 480px) {
+  .hero-trust { flex-direction: column; gap: 14px; }
+  .sim-tab { padding: 12px 16px; font-size: 11px; }
+}
+
+/* ============================================================
+   CURSOR PERSONALIZADO (solo dispositivos con mouse preciso)
+   ============================================================ */
+@media (pointer: fine) {
+  body, a, button, input, select, textarea, [onclick] { cursor: none !important; }
+}
+.cursor-dot {
+  position: fixed;
+  width: 5px; height: 5px;
+  background: var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  top: 0; left: 0;
+  transform: translate(-50%, -50%);
+  transition: width 0.18s, height 0.18s, background 0.18s, opacity 0.35s;
+  opacity: 0;
+  will-change: transform;
+}
+.cursor-ring {
+  position: fixed;
+  width: 30px; height: 30px;
+  border: 1.5px solid rgba(201,168,76,0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  top: 0; left: 0;
+  transform: translate(-50%, -50%);
+  transition: width 0.25s ease, height 0.25s ease, border-color 0.25s, background 0.25s, opacity 0.35s;
+  opacity: 0;
+  will-change: transform;
+}
+.cursor-dot.active  { opacity: 1; }
+.cursor-ring.active { opacity: 1; }
+.cursor-dot.hovering  { width: 8px; height: 8px; background: var(--gold-light); }
+.cursor-ring.hovering { width: 48px; height: 48px; border-color: var(--gold); background: rgba(201,168,76,0.07); }
+
+/* ============================================================
+   SCROLL PROGRESS BAR
+   ============================================================ */
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 100%);
+  width: 0%;
+  z-index: 2000;
+  box-shadow: 0 0 10px rgba(201,168,76,0.5);
+  pointer-events: none;
+  transition: none;
+}
+
+/* ============================================================
+   CARD SPOTLIGHT — gradient sigue al cursor sobre la tarjeta
+   ============================================================ */
+.servicio-card::after, .proceso-step::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+  background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%), rgba(201,168,76,0.08), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.35s;
+  pointer-events: none;
+  z-index: 0;
+}
+.servicio-card:hover::after, .proceso-step:hover::after { opacity: 1; }
+/* ensure card content stays above spotlight */
+.servicio-card > *, .proceso-step > * { position: relative; z-index: 1; }
+
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAVBAR
+     ============================================================ -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">
+    <span class="nav-logo-name">Meouchi Consultores</span>
+    <span class="nav-logo-sub">Estrategia financiera que trasciende</span>
+  </a>
+  <div class="nav-links">
+    <a href="#sobre">Sobre mí</a>
+    <a href="#servicios">Servicios</a>
+    <a href="#proceso">Proceso</a>
+    <a href="#simuladores">Simuladores</a>
+    <a href="#testimonios">Testimonios</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contacto" class="nav-cta">Asesoría gratis</a>
+  </div>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav-mobile" id="navMobile">
+  <a href="#sobre" onclick="closeMobileNav()">Sobre mí</a>
+  <a href="#servicios" onclick="closeMobileNav()">Servicios</a>
+  <a href="#proceso" onclick="closeMobileNav()">Proceso</a>
+  <a href="#simuladores" onclick="closeMobileNav()">Simuladores</a>
+  <a href="#testimonios" onclick="closeMobileNav()">Testimonios</a>
+  <a href="#faq" onclick="closeMobileNav()">FAQ</a>
+  <a href="#contacto" onclick="closeMobileNav()">Asesoría gratis →</a>
+</div>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-urgency">
+      <span class="hero-urgency-dot"></span>
+      Espacios de asesoría limitados esta semana
+    </div>
+    <p class="hero-eyebrow">Asesora certificada · CNSF · San Pedro Garza García</p>
+    <h1 class="hero-title">Tu patrimonio merece<br><em>una estrategia real</em></h1>
+    <p class="hero-subtitle">Protección, retiro e inversiones diseñados a tu medida — con la claridad de quien entiende los números y la cercanía de quien entiende tu vida.</p>
+    <a href="#contacto" class="hero-cta">Quiero mi asesoría gratis</a>
+    <div class="hero-trust">
+      <div class="hero-trust-item"><i class="fas fa-award"></i><span>Certificada CNSF</span></div>
+      <div class="hero-trust-item"><i class="fas fa-clock"></i><span>7+ años de experiencia</span></div>
+      <div class="hero-trust-item"><i class="fas fa-shield-halved"></i><span>GNP Seguros</span></div>
+      <div class="hero-trust-item"><i class="fas fa-map-marker-alt"></i><span>San Pedro Garza García</span></div>
+    </div>
+  </div>
+  <div class="hero-scroll"><span>Scroll</span><i class="fas fa-chevron-down"></i></div>
+</section>
+
+<!-- ============================================================
+     MÉTRICAS
+     ============================================================ -->
+<section id="metricas">
+  <div class="metricas-inner">
+    <div class="metrica-item">
+      <span class="metrica-num" data-target="7" data-suffix="+">7+</span>
+      <span class="metrica-label">Años de experiencia</span>
+    </div>
+    <div class="metrica-item">
+      <span class="metrica-num" data-target="500" data-suffix="+">500+</span>
+      <span class="metrica-label">Clientes satisfechos</span>
+    </div>
+    <div class="metrica-item">
+      <span class="metrica-num" data-target="98" data-suffix="%">98%</span>
+      <span class="metrica-label">Tasa de renovación</span>
+    </div>
+    <div class="metrica-item">
+      <span class="metrica-num metrica-static">$0</span>
+      <span class="metrica-label">Costo de la 1ª asesoría</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SOBRE MONTSERRAT
+     ============================================================ -->
+<section id="sobre">
+  <div class="sobre-inner">
+    <div class="sobre-photo fade-in">
+      <div class="sobre-photo-frame">
+        <img src="montserrat.jpg" alt="Montserrat Meouchi — Asesora de Seguros, Retiro e Inversiones" class="sobre-photo-img">
+        <div class="sobre-photo-badge">
+          <div class="sobre-photo-badge-num">7+</div>
+          <div class="sobre-photo-badge-text">años de<br>experiencia</div>
+        </div>
+      </div>
+    </div>
+    <div class="sobre-content fade-in">
+      <p class="section-eyebrow">Sobre mí</p>
+      <h2 class="section-title">Montserrat<br>Meouchi Ylizaliturri</h2>
+      <div class="gold-line"></div>
+      <p class="sobre-bio">Soy economista con especialidad en finanzas personales y patrimoniales, <strong>certificada por la Comisión Nacional de Seguros y Fianzas (CNSF)</strong> con más de 7 años asesorando a familias y profesionistas en el noreste del país.</p>
+      <p class="sobre-bio">Mi enfoque es directo: entiendo tus metas, analizo tu situación real y te presento opciones que tienen sentido para ti — no productos genéricos. Creo que una buena asesoría financiera no debería sentirse complicada ni intimidante.</p>
+      <p class="sobre-bio">Trabajo con <strong>GNP Seguros</strong>, una de las aseguradoras más sólidas de México, lo que me permite ofrecerte productos de clase mundial con el respaldo institucional que tu patrimonio merece.</p>
+      <div class="sobre-credentials">
+        <div class="credential">
+          <div class="credential-icon"><i class="fas fa-certificate"></i></div>
+          <div class="credential-text">
+            <strong>Economista certificada por la CNSF</strong>
+            <span>Comisión Nacional de Seguros y Fianzas</span>
+          </div>
+        </div>
+        <div class="credential">
+          <div class="credential-icon"><i class="fas fa-building-columns"></i></div>
+          <div class="credential-text">
+            <strong>Agente autorizado GNP Seguros</strong>
+            <span>Seguros de vida, GMM, auto, hogar y más</span>
+          </div>
+        </div>
+        <div class="credential">
+          <div class="credential-icon"><i class="fas fa-chart-line"></i></div>
+          <div class="credential-text">
+            <strong>Especialista en inversiones y retiro</strong>
+            <span>Planeación patrimonial de largo plazo</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SERVICIOS
+     ============================================================ -->
+<section id="servicios">
+  <div class="servicios-inner">
+    <div class="servicios-header fade-in">
+      <p class="section-eyebrow">Lo que hago por ti</p>
+      <h2 class="section-title">Tres pilares para<br>proteger tu futuro</h2>
+      <div class="gold-line center"></div>
+      <p class="sub">Cada servicio está diseñado para trabajar en conjunto — porque un patrimonio sólido necesita protección, crecimiento y un plan de retiro que funcione.</p>
+    </div>
+    <div class="servicios-grid">
+
+      <div class="servicio-card">
+        <div class="servicio-icon"><i class="fas fa-shield-heart"></i></div>
+        <h3 class="servicio-title">Protege tu patrimonio</h3>
+        <p class="servicio-desc">Un solo evento inesperado puede borrar años de esfuerzo. Los seguros correctos no son un gasto — son la base sobre la que construyes todo lo demás.</p>
+        <ul class="servicio-list">
+          <li>Gastos médicos mayores</li>
+          <li>Seguro de vida</li>
+          <li>Seguro de auto</li>
+          <li>Seguro de hogar</li>
+          <li>Coberturas a medida</li>
+        </ul>
+        <a href="#simuladores" onclick="showTab('gmm', document.querySelectorAll('.sim-tab')[0]); return true;" class="servicio-cta">Simular mi GMM <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <div class="servicio-card">
+        <div class="servicio-icon"><i class="fas fa-chart-line"></i></div>
+        <h3 class="servicio-title">Haz crecer tu dinero</h3>
+        <p class="servicio-desc">Tu dinero puede trabajar para ti mientras vives tu vida. Te ayudo a construir un portafolio de inversiones alineado con tus metas y tu tolerancia al riesgo.</p>
+        <ul class="servicio-list">
+          <li>Inversiones en bolsa</li>
+          <li>Fondos de inversión</li>
+          <li>Portafolios diversificados</li>
+          <li>Estrategia fiscal eficiente</li>
+          <li>Seguimiento y ajuste continuo</li>
+        </ul>
+        <a href="https://wa.me/528140078720?text=Hola%20Montserrat%2C%20vi%20tu%20sitio%20y%20me%20interesa%20saber%20m%C3%A1s%20sobre%20inversiones" target="_blank" rel="noopener" class="servicio-cta">Quiero una estrategia <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <div class="servicio-card">
+        <div class="servicio-icon"><i class="fas fa-umbrella-beach"></i></div>
+        <h3 class="servicio-title">Planea tu retiro</h3>
+        <p class="servicio-desc">El mejor momento para planear tu retiro es hoy. Con el instrumento correcto y una estrategia clara, puedes llegar a tu fecha sin depender del IMSS ni de nadie más.</p>
+        <ul class="servicio-list">
+          <li>Planes de retiro personalizados</li>
+          <li>PPR con beneficios fiscales</li>
+          <li>Proyección de capital necesario</li>
+          <li>Complemento al AFORE</li>
+          <li>Estrategia multigeneracional</li>
+        </ul>
+        <a href="#simuladores" onclick="showTab('retiro', document.querySelectorAll('.sim-tab')[1]); return true;" class="servicio-cta">Calcular mi retiro <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PROCESO — ASÍ TRABAJO
+     ============================================================ -->
+<section id="proceso">
+  <div class="proceso-inner">
+    <div class="proceso-header">
+      <p class="section-eyebrow">Así trabajo</p>
+      <h2 class="section-title">Tres pasos para empezar<br>tu estrategia financiera</h2>
+      <div class="gold-line center"></div>
+      <p class="sub">Sin reuniones de venta ni formularios interminables. Un proceso directo para que tomes decisiones informadas, nunca presionadas.</p>
+    </div>
+    <div class="proceso-steps">
+      <div class="proceso-step">
+        <div class="proceso-step-num"><span>01</span></div>
+        <i class="fas fa-comment-dots proceso-step-icon"></i>
+        <h3 class="proceso-step-title">Me contactas</h3>
+        <p class="proceso-step-desc">Por WhatsApp o llenando el formulario. Sin compromisos — solo cuéntame brevemente tu situación o dudas.</p>
+      </div>
+      <div class="proceso-connector"></div>
+      <div class="proceso-step">
+        <div class="proceso-step-num"><span>02</span></div>
+        <i class="fas fa-magnifying-glass-chart proceso-step-icon"></i>
+        <h3 class="proceso-step-title">Analizamos juntos</h3>
+        <p class="proceso-step-desc">En una llamada de 30 minutos entiendo tu situación real, tus metas y lo que ya tienes. Sin juicios, sin plantillas genéricas.</p>
+      </div>
+      <div class="proceso-connector"></div>
+      <div class="proceso-step">
+        <div class="proceso-step-num"><span>03</span></div>
+        <i class="fas fa-file-invoice-dollar proceso-step-icon"></i>
+        <h3 class="proceso-step-title">Tu plan, a la medida</h3>
+        <p class="proceso-step-desc">Te presento opciones claras con números reales. La decisión es siempre tuya — yo me aseguro de que tengas toda la información.</p>
+      </div>
+    </div>
+    <div class="proceso-cta-wrap">
+      <a href="#contacto" class="proceso-cta">Empezar ahora — es gratis</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SIMULADORES INTERACTIVOS
+     ============================================================ -->
+<section id="simuladores">
+  <div class="simuladores-header fade-in">
+    <p class="section-eyebrow">Herramientas gratuitas</p>
+    <h2 class="section-title">Simula tu situación financiera</h2>
+    <div class="gold-line center"></div>
+    <p class="sub">Dos calculadoras diseñadas para mostrarte — con números reales — lo que está en juego y lo que puedes hacer hoy.</p>
+  </div>
+
+  <div class="simulador-tabs">
+    <button class="sim-tab active" onclick="showTab('gmm', this)">
+      <i class="fas fa-notes-medical" style="margin-right:8px"></i>Gastos Médicos Mayores
+    </button>
+    <button class="sim-tab" onclick="showTab('retiro', this)">
+      <i class="fas fa-piggy-bank" style="margin-right:8px"></i>Simulador de Retiro
+    </button>
+  </div>
+
+  <!-- === GMM CALCULATOR === -->
+  <div class="sim-panel active" id="panel-gmm">
+    <div class="gmm-wrap">
+      <div class="blk">
+        <div class="blk-title">
+          <div class="blk-num">✦</div>
+          <h3>Datos del perfil</h3>
+        </div>
+        <div class="inp-grid">
+          <div class="inp-group">
+            <label>Edad actual</label>
+            <div class="inp-wrap">
+              <input type="number" id="gmm-edad" value="35" min="1" max="90">
+              <span class="inp-suffix">años</span>
+            </div>
+          </div>
+          <div class="inp-group">
+            <label>Proyectar hasta los</label>
+            <div class="inp-wrap">
+              <input type="number" id="gmm-edadF" value="70" min="20" max="100">
+              <span class="inp-suffix">años</span>
+            </div>
+          </div>
+          <div class="inp-group full">
+            <label>Costo actual de tu póliza (anual)</label>
+            <div class="inp-wrap">
+              <input type="number" id="gmm-costoAnual" value="36000" min="1000" step="500">
+              <span class="inp-suffix">$/año</span>
+            </div>
+          </div>
+        </div>
+        <div class="sld-block">
+          <div class="sld-header">
+            <span>Inflación médica anual estimada</span>
+            <span class="sld-value" id="gmm-infMedV">14%</span>
+          </div>
+          <input type="range" id="gmm-infMed" min="5" max="30" step="0.5" value="14">
+          <p class="sld-hint">Promedio del mercado mexicano: 12–18% · Con siniestros o cambios de edad: puede superar el 30%</p>
+        </div>
+      </div>
+
+      <div class="blk">
+        <div class="blk-title">
+          <div class="blk-num">1</div>
+          <h3>Proyección del costo médico anual</h3>
+        </div>
+        <div class="mets" id="gmm-mets"></div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="text-align:left">Año</th>
+                <th>Edad</th>
+                <th>Costo anual</th>
+                <th>Costo mensual</th>
+                <th>Incremento acumulado</th>
+                <th>vs hoy</th>
+              </tr>
+            </thead>
+            <tbody id="gmm-tbody"></tbody>
+          </table>
+        </div>
+        <div class="footnote" id="gmm-nota"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- === RETIRO CALCULATOR === -->
+  <div class="sim-panel" id="panel-retiro">
+    <div class="ret-wrap">
+      <div class="crd">
+        <div class="crd-lbl">Tus datos</div>
+        <div class="inp-row">
+          <div class="fld">
+            <label>Gasto mensual hoy</label>
+            <div class="inp-w">
+              <input type="number" id="ret-gasto" value="40000" min="1000" step="500">
+              <span class="inp-sfx">$/mes</span>
+            </div>
+          </div>
+          <div class="fld">
+            <label>Tu edad actual</label>
+            <div class="inp-w">
+              <input type="number" id="ret-edad" value="35" min="18" max="80">
+              <span class="inp-sfx">años</span>
+            </div>
+          </div>
+          <div class="fld">
+            <label>Edad de retiro deseada</label>
+            <div class="inp-w">
+              <input type="number" id="ret-edadRetiro" value="65" min="30" max="90">
+              <span class="inp-sfx">años</span>
+            </div>
+          </div>
+        </div>
+        <button class="calc-btn" onclick="calcRetiro()">Calcular mi número de retiro</button>
+      </div>
+
+      <div class="results" id="ret-results">
+        <div class="res-hero">
+          <div class="res-eyebrow">Capital que necesitas hoy</div>
+          <div class="res-amount" id="ret-capitalTotal">—</div>
+          <div class="res-desc">Para vivir 100% de intereses al momento del retiro, sin tocar el principal jamás</div>
+        </div>
+        <div class="mets">
+          <div class="met">
+            <div class="met-lbl">Tu gasto mensual hoy</div>
+            <div class="met-val" id="ret-gastoHoy">—</div>
+            <div class="met-sub">en pesos actuales</div>
+          </div>
+          <div class="met accent">
+            <div class="met-lbl" id="ret-gastoFuturoLabel">Tu gasto al retiro (65 años)</div>
+            <div class="met-val danger" id="ret-gastoFuturo">—</div>
+            <div class="met-sub" id="ret-gastoSub">ajustado por inflación</div>
+          </div>
+          <div class="met">
+            <div class="met-lbl">Años para prepararte</div>
+            <div class="met-val gold" id="ret-anios">—</div>
+            <div class="met-sub" id="ret-aniosSub">desde hoy hasta el retiro</div>
+          </div>
+          <div class="met">
+            <div class="met-lbl">Rendimiento mensual</div>
+            <div class="met-val" id="ret-rend">—</div>
+            <div class="met-sub" id="ret-rendSub">que generará el capital</div>
+          </div>
+        </div>
+        <div class="insight" id="ret-insight"></div>
+        <div class="cta-blk">
+          <p>Este número es tu punto de partida. <strong>La estrategia para llegar a él</strong> depende de tu situación, tu horizonte de tiempo y los instrumentos correctos.</p>
+          <a href="https://wa.me/528140078720" class="cta-btn" target="_blank" rel="noopener">Analizar mi estrategia</a>
+        </div>
+        <div class="supu">
+          <div class="supu-title">Supuestos del cálculo</div>
+          <ul class="supu-list">
+            <li><strong>Inflación anual:</strong> 4.5% (promedio histórico México 2000–2023)</li>
+            <li><strong>Edad de retiro:</strong> la que tú elijas</li>
+            <li><strong>Tasa de interés:</strong> 6% anual sobre el capital</li>
+            <li><strong>Modelo:</strong> renta perpetua — el principal nunca se toca</li>
+            <li><strong>Inflación sostenida:</strong> constante durante todo el periodo</li>
+            <li><strong>Sin pensión IMSS:</strong> cálculo independiente del sistema público</li>
+            <li><strong>Moneda:</strong> pesos mexicanos nominales</li>
+            <li><strong>Rendimiento:</strong> neto estimado, sin descontar impuestos</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     POR QUÉ ELEGIRLA
+     ============================================================ -->
+<section id="porque">
+  <div class="porque-inner">
+    <div class="porque-header fade-in">
+      <p class="section-eyebrow">Por qué trabajar conmigo</p>
+      <h2 class="section-title light">No soy un banco.<br>Soy tu asesora.</h2>
+      <div class="gold-line center"></div>
+    </div>
+    <div class="porque-grid">
+      <div class="porque-item fade-in">
+        <div class="porque-num">01</div>
+        <div class="porque-text">
+          <strong>Asesoría personalizada, sin complicaciones</strong>
+          <p>Me tomo el tiempo de entender tu situación real antes de sugerirte cualquier producto. No hay plantillas ni ventas de escritorio — hay conversaciones honestas.</p>
+        </div>
+      </div>
+      <div class="porque-item fade-in">
+        <div class="porque-num">02</div>
+        <div class="porque-text">
+          <strong>Certificada y respaldada institucionalmente</strong>
+          <p>Cuento con certificación de la CNSF y opero con GNP Seguros, lo que significa que tus pólizas están respaldadas por una de las instituciones más sólidas del país.</p>
+        </div>
+      </div>
+      <div class="porque-item fade-in">
+        <div class="porque-num">03</div>
+        <div class="porque-text">
+          <strong>Visión de largo plazo, no de comisión</strong>
+          <p>No te vendo productos — te construyo una estrategia. Cada decisión que tomamos juntos está pensada para el futuro que quieres, no para el número del mes.</p>
+        </div>
+      </div>
+      <div class="porque-item fade-in">
+        <div class="porque-num">04</div>
+        <div class="porque-text">
+          <strong>Atención continua, no solo al vender</strong>
+          <p>La relación no termina cuando firmas. Te acompaño en renovaciones, revisiones anuales, reclamaciones y cualquier cambio de vida que requiera ajustar tu plan.</p>
+        </div>
+      </div>
+      <div class="porque-item porque-full fade-in">
+        <div class="porque-num">05</div>
+        <div class="porque-text">
+          <strong>Primera asesoría completamente gratis</strong>
+          <p>No necesitas comprometerte a nada. Agenda una reunión, revisamos tu situación actual, y si hay algo que pueda mejorar, te lo digo con honestidad — sin presión, sin letra chica.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TESTIMONIOS
+     ============================================================ -->
+<section id="testimonios">
+  <div class="testimonios-inner">
+    <div class="testimonios-header fade-in">
+      <p class="section-eyebrow">Lo que dicen mis clientes</p>
+      <h2 class="section-title">Resultados que hablan<br>por sí solos</h2>
+      <div class="gold-line center"></div>
+    </div>
+    <div class="testimonios-grid">
+
+      <div class="testimonio-card fade-in">
+        <div class="testimonio-stars">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+        </div>
+        <span class="testimonio-quote">"</span>
+        <p class="testimonio-text">Montserrat me explicó de forma muy clara mis opciones de gastos médicos y encontró una póliza con mayor cobertura a menor costo de lo que yo tenía. Su asesoría fue completamente sin presión y sentí que realmente tenía mis intereses en mente, no los suyos.</p>
+        <div class="testimonio-author">
+          <div class="testimonio-avatar">C</div>
+          <div>
+            <div class="testimonio-name">Carolina R.</div>
+            <div class="testimonio-role">Médico pediatra · San Pedro Garza García</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonio-card fade-in">
+        <div class="testimonio-stars">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+        </div>
+        <span class="testimonio-quote">"</span>
+        <p class="testimonio-text">Tenía 42 años y nunca había pensado en serio en el retiro. Montserrat me mostró con números exactamente dónde estaba parado y lo que necesitaba para llegar a donde quiero. Hoy tengo un plan activo y me siento tranquilo por primera vez en mucho tiempo.</p>
+        <div class="testimonio-author">
+          <div class="testimonio-avatar">R</div>
+          <div>
+            <div class="testimonio-name">Roberto M.</div>
+            <div class="testimonio-role">Empresario · Monterrey, NL</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonio-card fade-in">
+        <div class="testimonio-stars">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+        </div>
+        <span class="testimonio-quote">"</span>
+        <p class="testimonio-text">Lo que más valoro es que siempre está disponible. Cuando tuvimos una reclamación de gastos médicos, nos guió en todo el proceso y lo resolvimos sin contratiempos. No solo vende seguros — realmente te acompaña cuando más lo necesitas.</p>
+        <div class="testimonio-author">
+          <div class="testimonio-avatar">A</div>
+          <div>
+            <div class="testimonio-name">Andrea y Luis F.</div>
+            <div class="testimonio-role">Familia · San Pedro Garza García</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FAQ
+     ============================================================ -->
+<section id="faq">
+  <div class="faq-inner">
+    <div class="faq-header fade-in">
+      <p class="section-eyebrow">Preguntas frecuentes</p>
+      <h2 class="section-title">Las dudas más comunes,<br>respondidas</h2>
+      <div class="gold-line center"></div>
+    </div>
+    <div class="faq-list fade-in">
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>¿Cuánto cuesta la primera asesoría?</span>
+          <div class="faq-icon"><i class="fas fa-plus"></i></div>
+        </div>
+        <div class="faq-answer">
+          <p>La primera asesoría es completamente gratuita y sin compromiso. Me tomo el tiempo de conocer tu situación actual, tus metas y tus inquietudes. Si al final encuentro opciones que te convengan, te las presento — y la decisión es siempre tuya.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Ya tengo un seguro con otra aseguradora. ¿Puedo cambiarlo?</span>
+          <div class="faq-icon"><i class="fas fa-plus"></i></div>
+        </div>
+        <div class="faq-answer">
+          <p>Sí, y muchas veces es lo más conveniente. Te ayudo a comparar tu póliza actual con las opciones disponibles en términos de cobertura, precio y condiciones. Si decidimos hacer un cambio, te oriento en el proceso para que no quedes sin cobertura en ningún momento de la transición.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>¿Cómo sé que los instrumentos de inversión son seguros?</span>
+          <div class="faq-icon"><i class="fas fa-plus"></i></div>
+        </div>
+        <div class="faq-answer">
+          <p>Trabajo exclusivamente con GNP Seguros, una institución regulada por la CNSF con décadas de solidez en México. Todos los productos que recomiendo están supervisados por autoridades financieras mexicanas. Además, siempre te explico con detalle cómo funciona cada instrumento antes de que tomes cualquier decisión.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>¿Con cuánto dinero puedo empezar un plan de retiro o inversión?</span>
+          <div class="faq-icon"><i class="fas fa-plus"></i></div>
+        </div>
+        <div class="faq-answer">
+          <p>Depende del instrumento, pero en la mayoría de los casos se puede comenzar con montos accesibles. Lo importante no es cuánto empiezas — sino cuándo empiezas. El tiempo es el activo más valioso en cualquier plan de largo plazo, y empezar hoy, aunque sea con poco, hace una diferencia enorme a futuro.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>¿Trabajan con empresas o solo con personas físicas?</span>
+          <div class="faq-icon"><i class="fas fa-plus"></i></div>
+        </div>
+        <div class="faq-answer">
+          <p>Trabajo con ambos. Para empresas, puedo asesorar en beneficios para colaboradores: seguros colectivos de gastos médicos, seguros de vida grupales y planes de ahorro empresarial. Para personas y familias, el enfoque es patrimonial y de largo plazo. En ambos casos, el punto de partida es siempre entender la situación particular antes de recomendar cualquier cosa.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CONTACTO
+     ============================================================ -->
+<section id="contacto">
+  <div class="contacto-inner">
+    <div class="contacto-info fade-in">
+      <p class="section-eyebrow">Hablemos</p>
+      <h2 class="section-title light">Agenda tu asesoría<br>gratuita hoy</h2>
+      <div class="gold-line"></div>
+      <p class="contacto-desc">Sin compromisos, sin letra chica. Cuéntame sobre tu situación y te ayudo a encontrar la mejor estrategia para proteger y hacer crecer lo que has construido.</p>
+      <div class="contacto-items">
+        <div class="contacto-item">
+          <div class="contacto-item-icon"><i class="fas fa-envelope"></i></div>
+          <div class="contacto-item-text">
+            <strong>Correo electrónico</strong>
+            <a href="mailto:contactoclientes@meouchiconsultores.com">contactoclientes@meouchiconsultores.com</a>
+          </div>
+        </div>
+        <div class="contacto-item">
+          <div class="contacto-item-icon"><i class="fab fa-whatsapp"></i></div>
+          <div class="contacto-item-text">
+            <strong>WhatsApp</strong>
+            <a href="https://wa.me/528140078720" target="_blank" rel="noopener">+52 81 4007 8720</a>
+          </div>
+        </div>
+        <div class="contacto-item">
+          <div class="contacto-item-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div class="contacto-item-text">
+            <strong>Ubicación</strong>
+            <span>San Pedro Garza García, Nuevo León</span>
+          </div>
+        </div>
+      </div>
+      <div class="contacto-social">
+        <a href="https://instagram.com/montserrat.meouchi" target="_blank" rel="noopener" class="social-btn" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://wa.me/528140078720" target="_blank" rel="noopener" class="social-btn" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="mailto:contactoclientes@meouchiconsultores.com" class="social-btn" aria-label="Email"><i class="fas fa-envelope"></i></a>
+      </div>
+    </div>
+
+    <div class="contacto-form-wrap fade-in">
+      <form id="contactForm" novalidate>
+        <div class="form-row">
+          <div class="form-group" id="fg-nombre">
+            <label for="f-nombre">Nombre</label>
+            <input type="text" id="f-nombre" placeholder="Tu nombre completo">
+            <span class="form-error">Por favor ingresa tu nombre.</span>
+          </div>
+          <div class="form-group" id="fg-tel">
+            <label for="f-tel">Teléfono / WhatsApp</label>
+            <input type="tel" id="f-tel" placeholder="81 1234 5678">
+            <span class="form-error">Por favor ingresa tu teléfono.</span>
+          </div>
+        </div>
+        <div class="form-group full" id="fg-email">
+          <label for="f-email">Correo electrónico</label>
+          <input type="email" id="f-email" placeholder="tu@correo.com">
+          <span class="form-error">Ingresa un correo válido.</span>
+        </div>
+        <div class="form-group full" id="fg-servicio">
+          <label for="f-servicio">¿En qué te puedo ayudar?</label>
+          <select id="f-servicio">
+            <option value="" disabled selected>Selecciona un tema</option>
+            <option value="gmm">Gastos médicos mayores</option>
+            <option value="vida">Seguro de vida</option>
+            <option value="auto">Seguro de auto</option>
+            <option value="hogar">Seguro de hogar</option>
+            <option value="retiro">Plan de retiro</option>
+            <option value="inversion">Inversiones</option>
+            <option value="otro">Otro / No sé por dónde empezar</option>
+          </select>
+          <span class="form-error">Por favor selecciona una opción.</span>
+        </div>
+        <div class="form-group full">
+          <label for="f-mensaje">Mensaje (opcional)</label>
+          <textarea id="f-mensaje" placeholder="Cuéntame brevemente tu situación o dudas..."></textarea>
+        </div>
+        <button type="submit" class="form-submit">Enviar solicitud de asesoría</button>
+        <div class="contacto-form-divider"><span>o contáctame directamente</span></div>
+        <a href="https://wa.me/528140078720?text=Hola%20Montserrat%2C%20vi%20tu%20sitio%20web%20y%20me%20gustar%C3%ADa%20agendar%20una%20asesor%C3%ADa%20gratuita" target="_blank" rel="noopener" class="contacto-wa-btn">
+          <i class="fab fa-whatsapp"></i> Escríbeme por WhatsApp
+        </a>
+      </form>
+      <div class="form-success" id="formSuccess">
+        <i class="fas fa-check-circle"></i>
+        <h3>¡Mensaje recibido!</h3>
+        <p>Me pondré en contacto contigo muy pronto.<br>También puedes escribirme directo a WhatsApp.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-brand-name">Meouchi Consultores</div>
+        <div class="footer-brand-sub">Estrategia financiera que trasciende</div>
+        <p>Asesora certificada CNSF. Agente autorizado GNP Seguros. San Pedro Garza García, Nuevo León, México.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-links-title">Navegación</div>
+        <a href="#sobre">Sobre mí</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#simuladores">Simuladores</a>
+        <a href="#testimonios">Testimonios</a>
+        <a href="#faq">Preguntas frecuentes</a>
+        <a href="#contacto">Contacto</a>
+      </div>
+      <div class="footer-links">
+        <div class="footer-links-title">Contacto</div>
+        <a href="mailto:contactoclientes@meouchiconsultores.com">contactoclientes@meouchiconsultores.com</a>
+        <a href="https://wa.me/528140078720" target="_blank" rel="noopener">+52 81 4007 8720</a>
+        <a href="https://instagram.com/montserrat.meouchi" target="_blank" rel="noopener">@montserrat.meouchi</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2025 Meouchi Consultores. Todos los derechos reservados.</span>
+      <span class="footer-disclaimer">Los cálculos y proyecciones son de carácter informativo y no constituyen asesoría financiera vinculante. Regulado por la CNSF.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     WHATSAPP FLOTANTE
+     ============================================================ -->
+<!-- CURSOR PERSONALIZADO -->
+<div class="cursor-dot"  id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- SCROLL PROGRESS -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<a class="wa-float" href="https://wa.me/528140078720" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+  <span class="wa-tooltip">Escríbeme ahora</span>
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<script>
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+const navbar    = document.getElementById('navbar');
+const hamburger = document.getElementById('hamburger');
+const navMobile = document.getElementById('navMobile');
+
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 40);
+});
+hamburger.addEventListener('click', () => navMobile.classList.toggle('open'));
+function closeMobileNav() { navMobile.classList.remove('open'); }
+
+/* ============================================================
+   GSAP SETUP
+   ============================================================ */
+gsap.registerPlugin(ScrollTrigger);
+
+/* ============================================================
+   HERO ENTRANCE — staggered timeline on load
+   ============================================================ */
+gsap.set('.hero-urgency, .hero-eyebrow, .hero-title, .hero-subtitle, .hero-cta, .hero-trust, .hero-scroll', { opacity: 0, y: 32 });
+
+window.addEventListener('load', () => {
+  gsap.timeline({ delay: 0.15 })
+    .to('.hero-urgency',  { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' })
+    .to('.hero-eyebrow',  { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.4')
+    .to('.hero-title',    { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' }, '-=0.5')
+    .to('.hero-subtitle', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.55')
+    .to('.hero-cta',      { opacity: 1, y: 0, duration: 0.7, ease: 'back.out(1.4)' }, '-=0.5')
+    .to('.hero-trust',    { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.35')
+    .to('.hero-scroll',   { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, '-=0.2');
+
+  calcGMM();
+  calcRetiro();
+});
+
+/* ============================================================
+   HERO PARALLAX
+   ============================================================ */
+gsap.to('.hero-inner', {
+  scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true },
+  y: 90, ease: 'none'
+});
+
+/* ============================================================
+   MÉTRICAS — counter animation
+   ============================================================ */
+ScrollTrigger.create({
+  trigger: '#metricas',
+  start: 'top 85%',
+  once: true,
+  onEnter: () => {
+    document.querySelectorAll('.metrica-num[data-target]').forEach(el => {
+      const target = parseInt(el.dataset.target);
+      const suffix = el.dataset.suffix || '';
+      const obj = { val: 0 };
+      gsap.to(obj, {
+        val: target,
+        duration: 1.8,
+        ease: 'power2.out',
+        onUpdate() { el.textContent = Math.round(obj.val) + suffix; }
+      });
+    });
+    gsap.from('.metrica-item', { y: 30, opacity: 0, duration: 0.7, stagger: 0.1, ease: 'power3.out' });
+  }
+});
+
+/* ============================================================
+   SOBRE — slide in from sides
+   ============================================================ */
+gsap.from('.sobre-photo', {
+  scrollTrigger: { trigger: '.sobre-inner', start: 'top 78%' },
+  x: -60, opacity: 0, duration: 1, ease: 'power3.out'
+});
+gsap.from('.sobre-content', {
+  scrollTrigger: { trigger: '.sobre-inner', start: 'top 78%' },
+  x: 60, opacity: 0, duration: 1, ease: 'power3.out'
+});
+gsap.from('.credential', {
+  scrollTrigger: { trigger: '.sobre-credentials', start: 'top 85%' },
+  x: 30, opacity: 0, duration: 0.6, stagger: 0.12, ease: 'power3.out'
+});
+
+/* ============================================================
+   GOLD LINE DRAW
+   ============================================================ */
+document.querySelectorAll('.gold-line').forEach(line => {
+  gsap.fromTo(line,
+    { scaleX: 0, transformOrigin: 'left center' },
+    {
+      scaleX: 1,
+      duration: 0.9,
+      ease: 'power3.out',
+      scrollTrigger: { trigger: line, start: 'top 92%' }
+    }
+  );
+});
+
+/* ============================================================
+   SERVICIOS — stagger cards
+   ============================================================ */
+gsap.from('.servicio-card', {
+  scrollTrigger: { trigger: '.servicios-grid', start: 'top 78%' },
+  y: 55, opacity: 0, duration: 0.8, stagger: 0.18, ease: 'power3.out'
+});
+
+/* ============================================================
+   PROCESO — stagger steps
+   ============================================================ */
+gsap.from('.proceso-step', {
+  scrollTrigger: { trigger: '.proceso-steps', start: 'top 80%' },
+  y: 45, opacity: 0, duration: 0.75, stagger: 0.22, ease: 'power3.out'
+});
+gsap.from('.proceso-cta', {
+  scrollTrigger: { trigger: '.proceso-cta-wrap', start: 'top 88%' },
+  y: 20, opacity: 0, duration: 0.6, ease: 'back.out(1.4)'
+});
+
+/* ============================================================
+   PORQUE — stagger items
+   ============================================================ */
+gsap.from('.porque-item', {
+  scrollTrigger: { trigger: '.porque-grid', start: 'top 78%' },
+  y: 40, opacity: 0, duration: 0.7, stagger: 0.13, ease: 'power3.out'
+});
+
+/* ============================================================
+   TESTIMONIOS — stagger cards
+   ============================================================ */
+gsap.from('.testimonio-card', {
+  scrollTrigger: { trigger: '.testimonios-grid', start: 'top 80%' },
+  y: 40, opacity: 0, duration: 0.7, stagger: 0.16, ease: 'power3.out'
+});
+
+/* ============================================================
+   FAQ ITEMS
+   ============================================================ */
+gsap.from('.faq-item', {
+  scrollTrigger: { trigger: '.faq-list', start: 'top 82%' },
+  y: 22, opacity: 0, duration: 0.5, stagger: 0.08, ease: 'power3.out'
+});
+
+/* ============================================================
+   CONTACTO
+   ============================================================ */
+gsap.from('.contacto-info', {
+  scrollTrigger: { trigger: '.contacto-inner', start: 'top 78%' },
+  x: -50, opacity: 0, duration: 0.9, ease: 'power3.out'
+});
+gsap.from('.contacto-form-wrap', {
+  scrollTrigger: { trigger: '.contacto-inner', start: 'top 78%' },
+  x: 50, opacity: 0, duration: 0.9, ease: 'power3.out'
+});
+
+/* ============================================================
+   SECTION EYEBROWS & TITLES (generic)
+   ============================================================ */
+document.querySelectorAll('.section-eyebrow').forEach(el => {
+  gsap.from(el, {
+    scrollTrigger: { trigger: el, start: 'top 88%' },
+    y: 20, opacity: 0, duration: 0.6, ease: 'power3.out'
+  });
+});
+
+/* ============================================================
+   SIMULADORES SECTION HEADER
+   ============================================================ */
+gsap.from('.simuladores-header', {
+  scrollTrigger: { trigger: '.simuladores-header', start: 'top 85%' },
+  y: 30, opacity: 0, duration: 0.7, ease: 'power3.out'
+});
+
+/* ============================================================
+   MAGNETIC BUTTONS
+   ============================================================ */
+['.hero-cta', '.proceso-cta'].forEach(sel => {
+  const btn = document.querySelector(sel);
+  if (!btn) return;
+  btn.addEventListener('mousemove', function(e) {
+    const r = this.getBoundingClientRect();
+    const x = (e.clientX - r.left - r.width  / 2) * 0.28;
+    const y = (e.clientY - r.top  - r.height / 2) * 0.28;
+    gsap.to(this, { x, y, duration: 0.35, ease: 'power2.out' });
+  });
+  btn.addEventListener('mouseleave', function() {
+    gsap.to(this, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1, 0.45)' });
+  });
+});
+
+/* ============================================================
+   SIMULATOR TABS
+   ============================================================ */
+function showTab(name, btn) {
+  document.querySelectorAll('.sim-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sim-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  btn.classList.add('active');
+  if (name === 'retiro') calcRetiro();
+}
+
+/* ============================================================
+   FAQ ACCORDION
+   ============================================================ */
+function toggleFaq(questionEl) {
+  const item   = questionEl.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+/* ============================================================
+   CONTACT FORM
+   ============================================================ */
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const nombre   = document.getElementById('f-nombre').value.trim();
+  const tel      = document.getElementById('f-tel').value.trim();
+  const email    = document.getElementById('f-email').value.trim();
+  const servicio = document.getElementById('f-servicio').value;
+  const emailRe  = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  document.getElementById('fg-nombre').classList.toggle('has-error', !nombre);
+  document.getElementById('fg-tel').classList.toggle('has-error', !tel);
+  document.getElementById('fg-email').classList.toggle('has-error', !emailRe.test(email));
+  document.getElementById('fg-servicio').classList.toggle('has-error', !servicio);
+
+  if (!nombre || !tel || !emailRe.test(email) || !servicio) return;
+
+  this.style.display = 'none';
+  document.getElementById('formSuccess').classList.add('show');
+});
+
+/* ============================================================
+   GMM CALCULATOR
+   ============================================================ */
+const gFmt  = v => '$' + Math.round(v).toLocaleString('es-MX');
+const gFmtM = v => v >= 1e6 ? '$' + (v / 1e6).toFixed(2) + 'M' : gFmt(v);
+
+function gBadge(y) {
+  if (y === 0) return '<span class="bdg bdg-now">HOY</span>';
+  if (y <= 5)  return '';
+  if (y <= 15) return '<span class="bdg bdg-warn">+' + y + ' años</span>';
+  return '<span class="bdg bdg-dng">+' + y + ' años</span>';
+}
+
+function calcGMM() {
+  const edad       = parseInt(document.getElementById('gmm-edad').value)         || 35;
+  const edadF      = parseInt(document.getElementById('gmm-edadF').value)        || 70;
+  const costoAnual = parseFloat(document.getElementById('gmm-costoAnual').value) || 36000;
+  const infMed     = parseFloat(document.getElementById('gmm-infMed').value) / 100;
+  const anios      = Math.max(1, edadF - edad);
+  const now        = new Date().getFullYear();
+  const costoFinal = costoAnual * Math.pow(1 + infMed, anios);
+  const factor     = (costoFinal / costoAnual).toFixed(1);
+
+  document.getElementById('gmm-mets').innerHTML = `
+    <div class="met">
+      <div class="met-lbl">Prima anual hoy</div>
+      <div class="met-val">${gFmt(costoAnual)}</div>
+      <div class="met-sub">${gFmt(costoAnual / 12)} / mes</div>
+    </div>
+    <div class="met highlight">
+      <div class="met-lbl">Prima anual a los ${edadF} años</div>
+      <div class="met-val">${gFmtM(costoFinal)}</div>
+      <div class="met-sub">${gFmtM(costoFinal / 12)} / mes</div>
+    </div>
+    <div class="met danger">
+      <div class="met-lbl">Tu prima valdrá</div>
+      <div class="met-val">${factor}x más</div>
+      <div class="met-sub">pagarás ${factor} veces más que hoy</div>
+    </div>
+    <div class="met">
+      <div class="met-lbl">Inflación médica aplicada</div>
+      <div class="met-val">${(infMed * 100).toFixed(1)}%</div>
+      <div class="met-sub">anual durante ${anios} años</div>
+    </div>
+  `;
+
+  const step = anios <= 20 ? 1 : 2;
+  const years = [];
+  for (let y = 0; y <= anios; y += step) years.push(y);
+  if (years[years.length - 1] !== anios) years.push(anios);
+
+  let rows = '';
+  years.forEach(y => {
+    const cA  = costoAnual * Math.pow(1 + infMed, y);
+    const fct = cA / costoAnual;
+    const inc = ((fct - 1) * 100).toFixed(0);
+    const cls = y === 0 ? 'row-hi' : (fct >= 8 ? 'row-dng' : '');
+    rows += `<tr class="${cls}">
+      <td>${now + y}${gBadge(y)}</td>
+      <td style="text-align:right">${edad + y} años</td>
+      <td style="text-align:right">${gFmtM(cA)}</td>
+      <td style="text-align:right">${gFmt(cA / 12)}</td>
+      <td style="text-align:right">${y === 0 ? '—' : '+' + inc + '%'}</td>
+      <td style="text-align:right">${y === 0 ? '1x' : fct.toFixed(1) + 'x'}</td>
+    </tr>`;
+  });
+  document.getElementById('gmm-tbody').innerHTML = rows;
+  document.getElementById('gmm-nota').innerHTML =
+    `Con una inflación médica del ${(infMed * 100).toFixed(1)}% anual, en ${anios} años tu prima pasará de <strong>${gFmt(costoAnual)}</strong> a <strong>${gFmtM(costoFinal)}</strong> por año — es decir, ${gFmtM(costoFinal / 12)} al mes. Contratar a edad joven y con buena salud es la mejor estrategia: el costo de entrada es menor y los incrementos futuros parten de una base más baja.`;
+}
+
+document.getElementById('gmm-infMed').addEventListener('input', function() {
+  document.getElementById('gmm-infMedV').textContent = parseFloat(this.value).toFixed(1) + '%';
+  calcGMM();
+});
+['gmm-edad', 'gmm-edadF', 'gmm-costoAnual'].forEach(id =>
+  document.getElementById(id).addEventListener('input', calcGMM)
+);
+
+/* ============================================================
+   RETIRO CALCULATOR
+   ============================================================ */
+const rFmt  = v => '$' + Math.round(v).toLocaleString('es-MX');
+const rFmtM = v => {
+  if (v >= 1e9) return '$' + (v / 1e9).toFixed(2) + ' mil millones';
+  if (v >= 1e6) return '$' + (v / 1e6).toFixed(1) + ' millones';
+  return rFmt(v);
+};
+
+function calcRetiro() {
+  const gasto      = parseFloat(document.getElementById('ret-gasto').value)      || 40000;
+  const edad       = parseFloat(document.getElementById('ret-edad').value)        || 35;
+  const edadRetiro = parseFloat(document.getElementById('ret-edadRetiro').value)  || 65;
+  const INF        = 0.045;
+  const TASA       = 0.06;
+  const anios      = Math.max(0, edadRetiro - edad);
+  const gastoFuturo  = gasto * Math.pow(1 + INF, anios);
+  const capitalTotal = (gastoFuturo * 12) / TASA;
+
+  document.getElementById('ret-capitalTotal').textContent     = rFmtM(capitalTotal);
+  document.getElementById('ret-gastoHoy').textContent         = rFmt(gasto);
+  document.getElementById('ret-gastoFuturo').textContent      = rFmt(gastoFuturo);
+  document.getElementById('ret-gastoSub').innerHTML           = `+${((gastoFuturo / gasto - 1) * 100).toFixed(0)}% más que hoy — <strong style="color:var(--danger)">efecto de la inflación</strong>`;
+  document.getElementById('ret-gastoFuturoLabel').textContent = `Tu gasto al retiro (${Math.round(edadRetiro)} años)`;
+  document.getElementById('ret-anios').textContent            = anios > 0 ? anios : 'Ya llegaste';
+  document.getElementById('ret-aniosSub').textContent         = `desde hoy hasta los ${Math.round(edadRetiro)}`;
+  document.getElementById('ret-rend').textContent             = rFmt(gastoFuturo);
+  document.getElementById('ret-rendSub').innerHTML            = `que generará el capital de <strong style="color:var(--navy)">${rFmtM(capitalTotal)}</strong>`;
+  document.getElementById('ret-insight').innerHTML            = anios > 0
+    ? `Con una inflación del 4.5% anual durante <strong>${anios} años</strong>, tus ${rFmt(gasto)} mensuales de hoy equivalen a <strong>${rFmt(gastoFuturo)}</strong> al momento de retirarte a los ${Math.round(edadRetiro)}. Para generar esa cantidad mensualmente al 6% anual sin tocar el capital, necesitas un patrimonio de <strong>${rFmtM(capitalTotal)}</strong>.`
+    : `Ya alcanzaste la edad de retiro. Con tu gasto actual de ${rFmt(gasto)} mensuales, necesitas un capital de <strong>${rFmtM(capitalTotal)}</strong> invertido al 6% anual para vivir 100% de intereses sin tocar el principal.`;
+
+  const results = document.getElementById('ret-results');
+  results.classList.remove('visible');
+  void results.offsetWidth;
+  results.classList.add('visible');
+
+  const capitalEl = document.getElementById('ret-capitalTotal');
+  if (typeof gsap !== 'undefined') {
+    const obj = { n: 0 };
+    gsap.to(obj, {
+      n: capitalTotal,
+      duration: 1.8,
+      ease: 'power2.out',
+      onUpdate() { capitalEl.textContent = rFmtM(obj.n); }
+    });
+  }
+}
+
+['ret-gasto', 'ret-edad', 'ret-edadRetiro'].forEach(id =>
+  document.getElementById(id).addEventListener('input', calcRetiro)
+);
+
+/* init is handled inside the GSAP load listener above */
+
+/* ============================================================
+   FASE 3 — SCROLL PROGRESS BAR
+   ============================================================ */
+const scrollProgress = document.getElementById('scrollProgress');
+window.addEventListener('scroll', () => {
+  const scrollTop  = window.scrollY;
+  const docHeight  = document.documentElement.scrollHeight - window.innerHeight;
+  scrollProgress.style.width = (scrollTop / docHeight * 100) + '%';
+}, { passive: true });
+
+/* ============================================================
+   FASE 3 — CURSOR PERSONALIZADO
+   ============================================================ */
+(function initCursor() {
+  if (!window.matchMedia('(pointer: fine)').matches) return;
+
+  const dot  = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  let mouseX = -100, mouseY = -100;
+
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    dot.classList.add('active');
+    ring.classList.add('active');
+    gsap.to(dot,  { x: mouseX, y: mouseY, duration: 0.08, ease: 'none' });
+    gsap.to(ring, { x: mouseX, y: mouseY, duration: 0.42, ease: 'power2.out' });
+  }, { passive: true });
+
+  document.querySelectorAll('a, button, [onclick], input, select, textarea, .sim-tab, .faq-question').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      dot.classList.add('hovering');
+      ring.classList.add('hovering');
+    });
+    el.addEventListener('mouseleave', () => {
+      dot.classList.remove('hovering');
+      ring.classList.remove('hovering');
+    });
+  });
+
+  window.addEventListener('mousedown', () => {
+    gsap.to(ring, { scale: 0.75, duration: 0.12, ease: 'power3.out' });
+  });
+  window.addEventListener('mouseup', () => {
+    gsap.to(ring, { scale: 1, duration: 0.45, ease: 'elastic.out(1, 0.5)' });
+  });
+})();
+
+/* ============================================================
+   FASE 3 — HERO PARTÍCULAS FLOTANTES
+   ============================================================ */
+(function createParticles() {
+  const hero = document.getElementById('hero');
+  for (let i = 0; i < 26; i++) {
+    const p = document.createElement('span');
+    const size = Math.random() * 2.5 + 0.8;
+    gsap.set(p, {
+      position: 'absolute',
+      width:  size + 'px',
+      height: size + 'px',
+      background: `rgba(201,168,76,${(Math.random() * 0.35 + 0.08).toFixed(2)})`,
+      borderRadius: '50%',
+      left:  (Math.random() * 100) + '%',
+      top:   (Math.random() * 100) + '%',
+      pointerEvents: 'none',
+      zIndex: 0,
+    });
+    hero.appendChild(p);
+    gsap.to(p, {
+      y:        (Math.random() - 0.5) * 90,
+      x:        (Math.random() - 0.5) * 50,
+      opacity:  Math.random() * 0.55 + 0.08,
+      duration: Math.random() * 4 + 3.5,
+      repeat:   -1,
+      yoyo:     true,
+      ease:     'sine.inOut',
+      delay:    Math.random() * 4,
+    });
+  }
+})();
+
+/* ============================================================
+   FASE 3 — SECTION TITLES: clip-path wipe reveal
+   ============================================================ */
+document.querySelectorAll('.section-title').forEach(el => {
+  gsap.fromTo(el,
+    { clipPath: 'inset(0 100% 0 0)' },
+    {
+      clipPath: 'inset(0 0% 0 0)',
+      duration: 1.0,
+      ease: 'power4.out',
+      scrollTrigger: { trigger: el, start: 'top 87%' }
+    }
+  );
+});
+
+/* ============================================================
+   FASE 3 — EYEBROW TEXT SCRAMBLE
+   ============================================================ */
+const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ·—';
+function scramble(el) {
+  const final = el.textContent;
+  const frames = 28;
+  let f = 0;
+  const tick = () => {
+    el.textContent = final.split('').map((ch, i) => {
+      if (ch === ' ') return ' ';
+      return (f / frames) > (i / final.length) + 0.25
+        ? ch
+        : CHARS[Math.floor(Math.random() * CHARS.length)];
+    }).join('');
+    f++;
+    if (f <= frames) requestAnimationFrame(tick);
+    else el.textContent = final;
+  };
+  tick();
+}
+
+document.querySelectorAll('.section-eyebrow').forEach(el => {
+  ScrollTrigger.create({
+    trigger: el,
+    start: 'top 90%',
+    once: true,
+    onEnter: () => scramble(el),
+  });
+});
+
+/* ============================================================
+   FASE 3 — CARD SPOTLIGHT (gradient sigue al cursor)
+   ============================================================ */
+document.querySelectorAll('.servicio-card, .proceso-step').forEach(card => {
+  card.addEventListener('mousemove', function(e) {
+    const r = this.getBoundingClientRect();
+    this.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+    this.style.setProperty('--my', (e.clientY - r.top)  + 'px');
+  });
+});
+</script>
+</body>
+</html>
