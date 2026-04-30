@@ -724,59 +724,71 @@ footer {
     return ahorroMensual * ((Math.pow(1 + r, n) - 1) / r);
   }
 
-  /* ── Generar Excel dinámico con datos del usuario ── */
+  /* ── Rellenar template Excel de Meouchi con los datos del usuario ── */
+  /*
+     Celdas de entrada en la hoja "Mis Datos" (celdas amarillas):
+     C9  → Edad actual
+     C10 → Edad de retiro deseada
+     C14 → Ingreso mensual neto
+     C15 → Gastos mensuales totales
+     C16 → Lo que ahorras/inviertes hoy
+     C17 → Patrimonio acumulado hoy (dejamos en 0)
+     C21 → Inflación anual (4.5 → el template lo formatea como %)
+     C22 → Rendimiento anual (6.0 → el template lo formatea como %)
+     Las fórmulas del template calculan todo lo demás automáticamente.
+  */
   function generarExcel(d) {
     if (typeof XLSX === 'undefined') {
-      alert('No se pudo cargar la librería de Excel. Verifica tu conexión a internet.');
-      return;
+      alert('No se pudo cargar la librería de Excel. Verifica tu conexión.');
+      return Promise.reject('XLSX no disponible');
     }
-    var wb = XLSX.utils.book_new();
-    var TASA = 0.06;
-    var r    = TASA / 12;
 
-    /* Hoja 1: Resumen */
-    var resumen = [
-      ['PROYECCIÓN DE PATRIMONIO — MEOUCHI CONSULTORES'],
-      [],
-      ['TUS DATOS',              '',              ''],
-      ['Edad actual',            d.age,           ''],
-      ['Edad de retiro',         d.retiro,        ''],
-      ['Años de horizonte',      d.anos,          ''],
-      ['Ingreso mensual neto',   d.ingreso,       'MXN'],
-      ['Gastos mensuales',       d.gastos,        'MXN'],
-      ['Ahorro mensual',         d.ahorro,        'MXN'],
-      [],
-      ['RESULTADOS',             '',              ''],
-      ['Capital que necesitas al retiro', Math.round(d.capitalNecesario), 'MXN'],
-      ['Capital proyectado con tu ritmo', Math.round(d.capitalActual),   'MXN'],
-      ['Brecha',                 Math.max(0, Math.round(d.brecha)),       'MXN'],
-      [],
-      ['SUPUESTOS',              '',              ''],
-      ['Inflación anual',        '4.5%',          ''],
-      ['Rendimiento anual',      '6.0%',          ''],
-      ['Modelo',                 'Renta perpetua',''],
-      [],
-      ['Calculadora gratuita de Meouchi Consultores'],
-      ['contactoclientes@meouchiconsultores.com'],
-    ];
-    var ws1 = XLSX.utils.aoa_to_sheet(resumen);
-    ws1['!cols'] = [{wch:35},{wch:18},{wch:8}];
-    XLSX.utils.book_append_sheet(wb, ws1, 'Resumen');
+    return fetch('./patrimonio_meouchi.xlsx')
+      .then(function (res) {
+        if (!res.ok) throw new Error('No se encontró el archivo de plantilla.');
+        return res.arrayBuffer();
+      })
+      .then(function (buffer) {
+        var wb = XLSX.read(new Uint8Array(buffer), {
+          type: 'array',
+          cellStyles: true,
+          cellFormula: true,
+          bookVBA: true
+        });
 
-    /* Hoja 2: Proyección año a año */
-    var rows = [['Año','Edad','Aportaciones acumuladas','Rendimientos acumulados','Capital total']];
-    for (var yr = 1; yr <= d.anos; yr++) {
-      var n   = yr * 12;
-      var cap = d.ahorro > 0 ? d.ahorro * ((Math.pow(1 + r, n) - 1) / r) : 0;
-      var apt = d.ahorro * n;
-      var rend = cap - apt;
-      rows.push([yr, d.age + yr, Math.round(apt), Math.round(Math.max(0, rend)), Math.round(cap)]);
-    }
-    var ws2 = XLSX.utils.aoa_to_sheet(rows);
-    ws2['!cols'] = [{wch:8},{wch:8},{wch:28},{wch:26},{wch:16}];
-    XLSX.utils.book_append_sheet(wb, ws2, 'Proyección anual');
+        /* Buscar la hoja de datos (contiene "Datos" en el nombre) */
+        var datosIdx = wb.SheetNames.findIndex(function (n) {
+          return /datos/i.test(n);
+        });
+        var ws = wb.Sheets[datosIdx >= 0 ? wb.SheetNames[datosIdx] : wb.SheetNames[1]];
 
-    XLSX.writeFile(wb, 'proyeccion-patrimonio-meouchi.xlsx');
+        /* Actualizar solo el valor (.v) de cada celda de entrada,
+           preservando estilos, formatos y fórmulas del resto */
+        function set(ref, val) {
+          if (ws[ref]) {
+            ws[ref].v = val;
+            delete ws[ref].w; /* Excel recalcula la representación visual */
+          }
+        }
+
+        set('C9',  d.age);
+        set('C10', d.retiro);
+        set('C14', d.ingreso);
+        set('C15', d.gastos);
+        set('C16', d.ahorro);
+        set('C17', 0);
+        /* C21 y C22 (inflación 4.5 y rendimiento 6.0) se dejan con los
+           valores por defecto del template para no romper las fórmulas */
+
+        XLSX.writeFile(wb, 'proyeccion-patrimonio-meouchi.xlsx', {
+          bookType: 'xlsx',
+          cellStyles: true
+        });
+      })
+      .catch(function (err) {
+        console.error('Error al generar Excel:', err);
+        alert('No se pudo generar el archivo. Verifica tu conexión e intenta de nuevo.');
+      });
   }
 
   /* ── Render: usuario calificado (≥ $4,000/mes) ── */
@@ -892,7 +904,7 @@ footer {
 
   /* ── Descarga Excel (expuesto globalmente para onclick) ── */
   window._descargar = function () {
-    if (calcData) generarExcel(calcData);
+    if (calcData) generarExcel(calcData).catch(function () {});
   };
 
   /* ── Función principal ── */
