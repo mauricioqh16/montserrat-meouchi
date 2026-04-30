@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Patrimonio — Meouchi Consultores</title>
+<meta name="description" content="Descubre cuánto necesitas para retirarte y si tu ritmo de ahorro actual te llevará ahí. Herramienta gratuita de Meouchi Consultores.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<style>
+/* ============================================================
+   RESET & VARIABLES — idénticas al sitio principal
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:       #0A1628;
+  --navy-mid:   #12243D;
+  --navy-light: #1A3050;
+  --gold:       #C9A84C;
+  --gold-light: #DFC080;
+  --gold-pale:  #F5ECD8;
+  --cream:      #FAF8F4;
+  --white:      #FFFFFF;
+  --text:       #0A1628;
+  --text-mid:   #334155;
+  --text-soft:  #64748B;
+  --border:     #E2DDD6;
+  --danger:     #B03A2E;
+  --success:    #1a7a3e;
+  --radius:     4px;
+  --transition: 0.25s ease;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--white);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+a { text-decoration: none; color: inherit; }
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+#navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: var(--navy);
+  box-shadow: 0 2px 24px rgba(0,0,0,0.35);
+  padding: 0 48px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo { display: flex; flex-direction: column; gap: 2px; }
+.nav-logo-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: var(--white);
+  letter-spacing: 0.03em;
+  line-height: 1;
+}
+.nav-logo-sub {
+  font-size: 9px;
+  color: var(--gold);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.nav-back {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: color var(--transition);
+}
+.nav-back:hover { color: var(--gold); }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+#hero {
+  background: var(--navy);
+  padding: 140px 24px 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+#hero::before {
+  content: '';
+  position: absolute;
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 65%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.hero-inner { position: relative; max-width: 680px; margin: 0 auto; }
+.hero-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 5.5vw, 62px);
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.15;
+  margin-bottom: 20px;
+}
+.hero-title em { font-style: italic; color: var(--gold-light); }
+.hero-subtitle {
+  font-size: clamp(15px, 2vw, 17px);
+  color: rgba(255,255,255,0.5);
+  font-weight: 300;
+  max-width: 480px;
+  margin: 0 auto 44px;
+  line-height: 1.85;
+}
+.hero-trust {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.hero-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.06em;
+}
+.hero-trust-item i { color: var(--gold); font-size: 13px; }
+
+/* ============================================================
+   CALC SECTION
+   ============================================================ */
+#calc-section {
+  background: var(--cream);
+  padding: 72px 24px 100px;
+}
+.calc-wrap { max-width: 700px; margin: 0 auto; }
+
+/* ── Input Card ── */
+.calc-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 36px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 28px rgba(10,22,40,0.05);
+}
+.calc-section-label {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 24px;
+  font-weight: 600;
+}
+.calc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+.calc-grid.full { grid-template-columns: 1fr; }
+.calc-field { display: flex; flex-direction: column; gap: 8px; }
+.calc-field label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-mid);
+}
+.calc-prefix { position: relative; }
+.calc-prefix-sym {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-soft);
+  font-size: 14px;
+  pointer-events: none;
+  font-weight: 500;
+}
+.calc-input {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  font-size: 15px;
+  color: var(--text);
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+}
+.calc-input:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+}
+.calc-input::placeholder { color: #C8C4BC; }
+.calc-prefix .calc-input { padding-left: 28px; }
+
+.calc-helper {
+  font-size: 11px;
+  color: var(--text-soft);
+  line-height: 1.5;
+  margin-top: 2px;
+}
+
+.calc-btn-primary {
+  width: 100%;
+  background: var(--navy);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius);
+  padding: 16px;
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background var(--transition);
+}
+.calc-btn-primary:hover { background: var(--navy-light); }
+
+/* ============================================================
+   RESULTS — QUALIFIED (≥ $4,000/mes)
+   ============================================================ */
+.calc-results { display: none; }
+.calc-results.visible { display: block; }
+
+/* Big result hero */
+.res-hero {
+  background: var(--navy);
+  border-radius: var(--radius);
+  padding: 44px 36px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+.res-hero::before {
+  content: '';
+  position: absolute;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(201,168,76,0.1) 0%, transparent 65%);
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  pointer-events: none;
+}
+.res-hero-eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 14px;
+  font-weight: 600;
+}
+.res-hero-amount {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(44px, 9vw, 80px);
+  font-weight: 500;
+  color: var(--gold-light);
+  line-height: 1;
+  margin-bottom: 14px;
+  letter-spacing: -0.02em;
+}
+.res-hero-desc {
+  font-size: 15px;
+  color: rgba(255,255,255,0.65);
+  max-width: 360px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* Stat cards */
+.res-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.res-stat {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  box-shadow: 0 2px 12px rgba(10,22,40,0.04);
+}
+.res-stat.accent { border-color: var(--gold); }
+.res-stat-label {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  margin-bottom: 10px;
+}
+.res-stat-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 30px;
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1;
+}
+.res-stat.accent .res-stat-value { color: var(--gold); }
+.res-stat-sub {
+  font-size: 12px;
+  color: var(--text-soft);
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+/* Projection timeline */
+.res-timeline {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 12px rgba(10,22,40,0.04);
+}
+.res-timeline-label {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  margin-bottom: 20px;
+}
+.res-timeline-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+.res-tl-item {
+  text-align: center;
+  padding: 16px 8px;
+  border-radius: var(--radius);
+}
+.res-tl-item:last-child { background: var(--gold-pale); }
+.res-tl-years {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  margin-bottom: 8px;
+}
+.res-tl-amount {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--text);
+}
+.res-tl-amount.warn { color: var(--danger); }
+.res-tl-amount.good { color: var(--success); }
+
+/* Message */
+.res-message {
+  background: var(--gold-pale);
+  border-left: 3px solid var(--gold);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+.res-message p {
+  font-size: 14px;
+  color: var(--text-mid);
+  line-height: 1.85;
+  font-style: italic;
+}
+
+/* CTA group */
+.res-cta-group { display: flex; flex-direction: column; gap: 10px; }
+
+.btn-wa {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #25D366;
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius);
+  padding: 17px 24px;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background var(--transition);
+  text-decoration: none;
+}
+.btn-wa:hover { background: #20ba5a; }
+.btn-wa i { font-size: 18px; }
+
+.btn-wa-soft {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: transparent;
+  color: var(--text-mid);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 15px 24px;
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition);
+  text-decoration: none;
+}
+.btn-wa-soft:hover { border-color: #25D366; color: #25D366; }
+.btn-wa-soft i { font-size: 16px; }
+
+.btn-excel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: transparent;
+  color: var(--text-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 24px;
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.btn-excel:hover { border-color: var(--text-mid); color: var(--text); }
+.btn-excel i { font-size: 15px; color: #217346; }
+
+/* ============================================================
+   RESULTS — NOT QUALIFIED (< $4,000/mes)
+   ============================================================ */
+.edu-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 40px 36px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 28px rgba(10,22,40,0.05);
+}
+.edu-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(24px, 3.5vw, 34px);
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1.25;
+  margin-bottom: 8px;
+}
+.edu-title em { font-style: italic; color: var(--gold); }
+.gold-line { width: 44px; height: 2px; background: var(--gold); margin: 18px 0; }
+.edu-body {
+  font-size: 15px;
+  color: var(--text-mid);
+  line-height: 1.85;
+  margin-bottom: 28px;
+}
+.edu-body strong { color: var(--text); }
+
+.edu-potential {
+  background: var(--gold-pale);
+  border-left: 3px solid var(--gold);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  margin-bottom: 28px;
+}
+.edu-potential p {
+  font-size: 14px;
+  color: var(--text-mid);
+  line-height: 1.75;
+}
+.edu-potential strong { color: var(--text); font-weight: 600; }
+
+.edu-steps { display: flex; flex-direction: column; gap: 18px; margin-bottom: 32px; }
+.edu-step { display: flex; gap: 16px; align-items: flex-start; }
+.edu-step-num {
+  min-width: 30px; height: 30px;
+  border-radius: 50%;
+  border: 1px solid var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 600;
+  color: var(--gold);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.edu-step-text { font-size: 14px; color: var(--text-mid); line-height: 1.75; }
+.edu-step-text strong { color: var(--text); font-weight: 600; }
+
+/* Not-yet badge */
+.not-yet-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #FFF8EC;
+  border: 1px solid #E8D5A0;
+  border-radius: var(--radius);
+  padding: 10px 16px;
+  font-size: 12px;
+  color: #8A6A00;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  margin-bottom: 12px;
+}
+.not-yet-badge i { font-size: 13px; }
+
+/* Footnote */
+.calc-footnote {
+  font-size: 11px;
+  color: var(--text-soft);
+  text-align: center;
+  margin-top: 20px;
+  line-height: 1.7;
+  opacity: 0.7;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer {
+  background: #060E1A;
+  padding: 40px 48px 28px;
+  text-align: center;
+}
+.footer-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+.footer-tagline {
+  font-size: 10px;
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.footer-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+.footer-links a {
+  font-size: 12px;
+  color: rgba(255,255,255,0.35);
+  transition: color var(--transition);
+}
+.footer-links a:hover { color: var(--gold); }
+.footer-sep { color: rgba(255,255,255,0.12); }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 640px) {
+  #navbar { padding: 0 20px; }
+  #hero { padding: 110px 20px 56px; }
+  .hero-trust { gap: 16px; }
+  #calc-section { padding: 48px 16px 72px; }
+  .calc-card, .edu-card { padding: 24px 20px; }
+  .calc-grid { grid-template-columns: 1fr; }
+  .res-stats { grid-template-columns: 1fr; }
+  .res-timeline-grid { grid-template-columns: 1fr; }
+  .res-tl-item:last-child { background: var(--gold-pale); }
+  .res-hero { padding: 32px 20px; }
+  footer { padding: 32px 20px 24px; }
+  .footer-links { gap: 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAVBAR
+     ============================================================ -->
+<nav id="navbar">
+  <div class="nav-logo">
+    <span class="nav-logo-name">Meouchi Consultores</span>
+    <span class="nav-logo-sub">Estrategia financiera</span>
+  </div>
+  <a href="./index.html" class="nav-back">
+    <i class="fas fa-arrow-left"></i> Regresar al sitio
+  </a>
+</nav>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section id="hero">
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Herramienta gratuita · Meouchi Consultores</p>
+    <h1 class="hero-title">¿Estás construyendo<br><em>patrimonio</em> de verdad?</h1>
+    <p class="hero-subtitle">Descubre en segundos cuánto necesitarás para retirarte — y si tu ritmo de ahorro actual te llevará ahí.</p>
+    <div class="hero-trust">
+      <div class="hero-trust-item"><i class="fas fa-lock"></i><span>Datos 100% privados</span></div>
+      <div class="hero-trust-item"><i class="fas fa-bolt"></i><span>Resultado inmediato</span></div>
+      <div class="hero-trust-item"><i class="fas fa-file-excel"></i><span>Proyección descargable</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CALCULATOR
+     ============================================================ -->
+<section id="calc-section">
+  <div class="calc-wrap">
+
+    <!-- Input card -->
+    <div class="calc-card">
+      <p class="calc-section-label">Tu situación actual</p>
+
+      <div class="calc-grid">
+        <div class="calc-field">
+          <label for="c-age">Edad actual</label>
+          <input class="calc-input" type="number" id="c-age" placeholder="35" min="18" max="64">
+        </div>
+        <div class="calc-field">
+          <label for="c-retiro">Edad de retiro deseada</label>
+          <input class="calc-input" type="number" id="c-retiro" placeholder="65" min="40" max="80">
+        </div>
+      </div>
+
+      <div class="calc-grid">
+        <div class="calc-field">
+          <label for="c-ingreso">Ingreso mensual neto</label>
+          <div class="calc-prefix">
+            <span class="calc-prefix-sym">$</span>
+            <input class="calc-input" type="number" id="c-ingreso" placeholder="30,000" min="0">
+          </div>
+        </div>
+        <div class="calc-field">
+          <label for="c-gastos">Gastos mensuales</label>
+          <div class="calc-prefix">
+            <span class="calc-prefix-sym">$</span>
+            <input class="calc-input" type="number" id="c-gastos" placeholder="25,000" min="0">
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-grid full">
+        <div class="calc-field">
+          <label for="c-ahorro">¿Cuánto ahorras o inviertes al mes actualmente?</label>
+          <div class="calc-prefix">
+            <span class="calc-prefix-sym">$</span>
+            <input class="calc-input" type="number" id="c-ahorro" placeholder="0" min="0">
+          </div>
+          <p class="calc-helper">Incluye cualquier ahorro, inversión o fondo que ya tengas activo.</p>
+        </div>
+      </div>
+
+      <button class="calc-btn-primary" onclick="calcular()">
+        <i class="fas fa-calculator" style="margin-right:8px;font-size:12px;"></i>
+        Calcular mi situación real
+      </button>
+    </div>
+
+    <!-- Results container — filled by JS -->
+    <div class="calc-results" id="calc-results"></div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer>
+  <p class="footer-name">Meouchi Consultores</p>
+  <p class="footer-tagline">Estrategia financiera que trasciende</p>
+  <div class="footer-links">
+    <a href="./index.html">Inicio</a>
+    <span class="footer-sep">·</span>
+    <a href="https://wa.me/528140078720" target="_blank" rel="noopener">+52 81 4007 8720</a>
+    <span class="footer-sep">·</span>
+    <a href="mailto:contactoclientes@meouchiconsultores.com">contactoclientes@meouchiconsultores.com</a>
+    <span class="footer-sep">·</span>
+    <a href="https://instagram.com/montserrat.meouchi" target="_blank" rel="noopener">@montserrat.meouchi</a>
+  </div>
+</footer>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+(function () {
+  var WA = '528140078720';
+  var calcData = null;
+
+  function fmt(n) {
+    return '$' + Math.round(n).toLocaleString('es-MX');
+  }
+
+  function waHref(msg) {
+    return 'https://wa.me/' + WA + '?text=' + encodeURIComponent(msg);
+  }
+
+  /* Valor futuro de aportes mensuales con interés compuesto */
+  function fv(ahorroMensual, anos, tasaAnual) {
+    if (ahorroMensual <= 0) return 0;
+    var r = tasaAnual / 12;
+    var n = anos * 12;
+    return ahorroMensual * ((Math.pow(1 + r, n) - 1) / r);
+  }
+
+  /* ── Generar Excel dinámico con datos del usuario ── */
+  function generarExcel(d) {
+    if (typeof XLSX === 'undefined') {
+      alert('No se pudo cargar la librería de Excel. Verifica tu conexión a internet.');
+      return;
+    }
+    var wb = XLSX.utils.book_new();
+    var TASA = 0.06;
+    var r    = TASA / 12;
+
+    /* Hoja 1: Resumen */
+    var resumen = [
+      ['PROYECCIÓN DE PATRIMONIO — MEOUCHI CONSULTORES'],
+      [],
+      ['TUS DATOS',              '',              ''],
+      ['Edad actual',            d.age,           ''],
+      ['Edad de retiro',         d.retiro,        ''],
+      ['Años de horizonte',      d.anos,          ''],
+      ['Ingreso mensual neto',   d.ingreso,       'MXN'],
+      ['Gastos mensuales',       d.gastos,        'MXN'],
+      ['Ahorro mensual',         d.ahorro,        'MXN'],
+      [],
+      ['RESULTADOS',             '',              ''],
+      ['Capital que necesitas al retiro', Math.round(d.capitalNecesario), 'MXN'],
+      ['Capital proyectado con tu ritmo', Math.round(d.capitalActual),   'MXN'],
+      ['Brecha',                 Math.max(0, Math.round(d.brecha)),       'MXN'],
+      [],
+      ['SUPUESTOS',              '',              ''],
+      ['Inflación anual',        '4.5%',          ''],
+      ['Rendimiento anual',      '6.0%',          ''],
+      ['Modelo',                 'Renta perpetua',''],
+      [],
+      ['Calculadora gratuita de Meouchi Consultores'],
+      ['contactoclientes@meouchiconsultores.com'],
+    ];
+    var ws1 = XLSX.utils.aoa_to_sheet(resumen);
+    ws1['!cols'] = [{wch:35},{wch:18},{wch:8}];
+    XLSX.utils.book_append_sheet(wb, ws1, 'Resumen');
+
+    /* Hoja 2: Proyección año a año */
+    var rows = [['Año','Edad','Aportaciones acumuladas','Rendimientos acumulados','Capital total']];
+    for (var yr = 1; yr <= d.anos; yr++) {
+      var n   = yr * 12;
+      var cap = d.ahorro > 0 ? d.ahorro * ((Math.pow(1 + r, n) - 1) / r) : 0;
+      var apt = d.ahorro * n;
+      var rend = cap - apt;
+      rows.push([yr, d.age + yr, Math.round(apt), Math.round(Math.max(0, rend)), Math.round(cap)]);
+    }
+    var ws2 = XLSX.utils.aoa_to_sheet(rows);
+    ws2['!cols'] = [{wch:8},{wch:8},{wch:28},{wch:26},{wch:16}];
+    XLSX.utils.book_append_sheet(wb, ws2, 'Proyección anual');
+
+    XLSX.writeFile(wb, 'proyeccion-patrimonio-meouchi.xlsx');
+  }
+
+  /* ── Render: usuario calificado (≥ $4,000/mes) ── */
+  function renderCalificado(container, d) {
+    var p10  = fv(d.ahorro, Math.min(10, d.anos), 0.06);
+    var p20  = fv(d.ahorro, Math.min(20, d.anos), 0.06);
+    var brechaOk = d.capitalActual >= d.capitalNecesario;
+
+    var msgMeTexto = brechaOk
+      ? 'Tu disciplina financiera tiene potencial real. Con la estrategia correcta puedes optimizar rendimientos, reducir impuestos y proteger lo que ya estás construyendo. Este es exactamente el momento de hablar con una asesora.'
+      : 'Esta brecha no es un problema — es información. La mayoría la descubre cuando ya es tarde. Tú todavía tienes tiempo, y con los instrumentos correctos esa distancia se puede cerrar más rápido de lo que imaginas.';
+
+    var msgWA = '¡Hola Montserrat! 👋 Acabo de hacer mi proyección de patrimonio en tu calculadora y quiero platicar contigo.\n\n'
+      + '📊 Mi resumen:\n'
+      + '• Ahorro mensual: ' + fmt(d.ahorro) + '/mes\n'
+      + '• Horizonte: ' + d.anos + ' años (retiro a los ' + d.retiro + ')\n'
+      + '• Capital proyectado: ' + fmt(d.capitalActual) + '\n'
+      + '• Capital que necesito: ' + fmt(d.capitalNecesario) + '\n\n'
+      + '¿Tienes disponibilidad para hablar sobre cómo optimizar mi estrategia?';
+
+    container.innerHTML =
+      '<div class="res-hero">'
+      + '<p class="res-hero-eyebrow">Capital que necesitas al retiro</p>'
+      + '<p class="res-hero-amount">' + fmt(d.capitalNecesario) + '</p>'
+      + '<p class="res-hero-desc">Para vivir de intereses sin tocar el principal durante tu retiro</p>'
+      + '</div>'
+
+      + '<div class="res-stats">'
+      + '<div class="res-stat accent">'
+      + '<p class="res-stat-label">Lo que estás construyendo</p>'
+      + '<p class="res-stat-value">' + fmt(d.capitalActual) + '</p>'
+      + '<p class="res-stat-sub">' + fmt(d.ahorro) + '/mes · ' + d.anos + ' años · 6% anual</p>'
+      + '</div>'
+      + '<div class="res-stat">'
+      + '<p class="res-stat-label">Brecha actual</p>'
+      + '<p class="res-stat-value" style="color:' + (brechaOk ? 'var(--success)' : 'var(--danger)') + '">'
+      + (brechaOk ? 'Sin brecha' : fmt(d.brecha))
+      + '</p>'
+      + '<p class="res-stat-sub">' + (brechaOk ? 'Vas por buen camino 🎯' : 'Diferencia a cerrar') + '</p>'
+      + '</div>'
+      + '</div>'
+
+      + '<div class="res-timeline">'
+      + '<p class="res-timeline-label">Tu patrimonio proyectado en el tiempo</p>'
+      + '<div class="res-timeline-grid">'
+      + '<div class="res-tl-item"><p class="res-tl-years">En 10 años</p><p class="res-tl-amount">' + fmt(p10) + '</p></div>'
+      + '<div class="res-tl-item"><p class="res-tl-years">En 20 años</p><p class="res-tl-amount">' + fmt(p20) + '</p></div>'
+      + '<div class="res-tl-item"><p class="res-tl-years">Al retiro (' + d.retiro + ' años)</p>'
+      + '<p class="res-tl-amount ' + (brechaOk ? 'good' : 'warn') + '">' + fmt(d.capitalActual) + '</p></div>'
+      + '</div>'
+      + '</div>'
+
+      + '<div class="res-message"><p>' + msgMeTexto + '</p></div>'
+
+      + '<div class="res-cta-group">'
+      + '<a href="' + waHref(msgWA) + '" target="_blank" rel="noopener" class="btn-wa">'
+      + '<i class="fab fa-whatsapp"></i> Hablar con Montserrat sobre mi estrategia'
+      + '</a>'
+      + '<button class="btn-excel" onclick="window._descargar()">'
+      + '<i class="fas fa-file-excel"></i> Descargar mi proyección completa en Excel'
+      + '</button>'
+      + '</div>'
+
+      + '<p class="calc-footnote">Supuestos: inflación 4.5% anual · rendimiento 6% anual · modelo de renta perpetua<br>'
+      + 'Cálculo informativo — no constituye asesoría financiera vinculante · Regulado por la CNSF</p>';
+  }
+
+  /* ── Render: usuario no calificado (< $4,000/mes) ── */
+  function renderNoCalificado(container, d) {
+    var potential = fv(4000, d.anos, 0.06);
+
+    var msgWA = 'Hola Montserrat, hice tu calculadora de patrimonio y quiero aprender a construir mejores hábitos de ahorro. '
+      + 'Todavía estoy trabajando en llegar a mi meta de ahorro mensual. ¿Podemos hablar?';
+
+    container.innerHTML =
+      '<div class="edu-card">'
+      + '<h2 class="edu-title">Buen primer paso —<br><em>el hábito primero</em></h2>'
+      + '<div class="gold-line"></div>'
+      + '<p class="edu-body">Esta herramienta está pensada para quienes ya tienen una capacidad de ahorro activa de <strong>$4,000/mes o más</strong>. '
+      + 'Pero llegar a ese punto tiene un proceso — y lo importante es que ya estás haciendo las preguntas correctas.</p>'
+
+      + '<div class="edu-potential">'
+      + '<p>¿Sabías que <strong>$4,000/mes durante ' + d.anos + ' años</strong> podrían convertirse en <strong>' + fmt(potential) + '</strong>? '
+      + 'Eso es exactamente lo que un hábito sostenido puede construir. La diferencia entre el presente y ese número está en empezar.</p>'
+      + '</div>'
+
+      + '<div class="edu-steps">'
+      + '<div class="edu-step"><div class="edu-step-num">1</div>'
+      + '<p class="edu-step-text"><strong>Define tu número de ahorro mínimo.</strong> Antes de invertir, necesitas saber cuánto puedes separar cada mes de forma consistente, sin importar lo que pase.</p></div>'
+
+      + '<div class="edu-step"><div class="edu-step-num">2</div>'
+      + '<p class="edu-step-text"><strong>Automatiza antes de gastar.</strong> El dinero que no ves no se gasta. Separa tu ahorro el mismo día que entra tu ingreso, aunque sea poco al inicio.</p></div>'
+
+      + '<div class="edu-step"><div class="edu-step-num">3</div>'
+      + '<p class="edu-step-text"><strong>Cuando llegues a $4,000/mes de ahorro sostenido,</strong> ese es el momento de poner ese dinero a trabajar en serio con los instrumentos correctos.</p></div>'
+      + '</div>'
+
+      + '<div class="not-yet-badge"><i class="fas fa-clock"></i> Todavía no es el momento — pero el momento se construye hoy</div>'
+
+      + '<div class="res-cta-group">'
+      + '<button class="btn-excel" onclick="window._descargar()">'
+      + '<i class="fas fa-file-excel"></i> Descargar mi proyección en Excel'
+      + '</button>'
+      + '<a href="' + waHref(msgWA) + '" target="_blank" rel="noopener" class="btn-wa-soft">'
+      + '<i class="fab fa-whatsapp"></i> Guardar el número de Montserrat para cuando estés listo'
+      + '</a>'
+      + '</div>'
+      + '</div>'
+
+      + '<p class="calc-footnote">Supuestos: inflación 4.5% anual · rendimiento 6% anual · modelo de renta perpetua<br>'
+      + 'Cálculo informativo — no constituye asesoría financiera vinculante · Regulado por la CNSF</p>';
+  }
+
+  /* ── Descarga Excel (expuesto globalmente para onclick) ── */
+  window._descargar = function () {
+    if (calcData) generarExcel(calcData);
+  };
+
+  /* ── Función principal ── */
+  window.calcular = function () {
+    var age    = parseInt(document.getElementById('c-age').value)      || 0;
+    var retiro = parseInt(document.getElementById('c-retiro').value)   || 65;
+    var ingreso = parseFloat(document.getElementById('c-ingreso').value) || 0;
+    var gastos  = parseFloat(document.getElementById('c-gastos').value)  || 0;
+    var ahorro  = parseFloat(document.getElementById('c-ahorro').value)  || 0;
+
+    if (!age || !ingreso) {
+      alert('Por favor ingresa al menos tu edad e ingreso mensual.');
+      return;
+    }
+    if (retiro <= age) {
+      alert('La edad de retiro debe ser mayor a tu edad actual.');
+      return;
+    }
+
+    var INFLACION   = 0.045;
+    var RENDIMIENTO = 0.06;
+    var anos = retiro - age;
+
+    var gastoBase        = (gastos > 0) ? gastos : ingreso * 0.8;
+    var gastoAlRetiro    = gastoBase * Math.pow(1 + INFLACION, anos) * 12;
+    var capitalNecesario = gastoAlRetiro / RENDIMIENTO;
+    var capitalActual    = fv(ahorro, anos, RENDIMIENTO);
+    var brecha           = capitalNecesario - capitalActual;
+
+    calcData = { age, retiro, ingreso, gastos, ahorro, anos, capitalNecesario, capitalActual, brecha };
+
+    var container = document.getElementById('calc-results');
+    container.className = 'calc-results visible';
+
+    if (ahorro >= 4000) {
+      renderCalificado(container, calcData);
+    } else {
+      renderNoCalificado(container, calcData);
+    }
+
+    setTimeout(function () {
+      container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  };
+
+})();
+</script>
+</body>
+</html>
